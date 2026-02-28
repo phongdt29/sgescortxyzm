@@ -705,6 +705,81 @@ if ( have_posts() ) {
 	</div>
 </section>
 
+<!-- News Section -->
+<section id="news" class="news-area bg-color-2 area-padding-2">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="section-headline white-headline text-center">
+					<span class="top-head"><?php esc_html_e( 'News', 'sgescort-basic' ); ?></span>
+					<h3><?php esc_html_e( 'Latest News & Updates', 'sgescort-basic' ); ?></h3>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<?php
+			$news_query = new WP_Query(
+				array(
+					'post_type'      => 'post',
+					'posts_per_page' => 6,
+					'orderby'        => 'date',
+					'order'          => 'DESC',
+					'post_status'    => 'publish',
+				)
+			);
+
+			$has_news = $news_query->have_posts();
+			if ( $has_news ) :
+				while ( $news_query->have_posts() ) :
+					$news_query->the_post();
+					$thumb_url = get_the_post_thumbnail_url( get_the_ID(), 'medium' );
+					?>
+					<div class="col-md-4 col-sm-6 mb-4">
+						<article class="news-card">
+							<?php if ( $thumb_url ) : ?>
+								<a href="<?php the_permalink(); ?>" class="news-card-image">
+									<img src="<?php echo esc_url( $thumb_url ); ?>" alt="<?php the_title_attribute(); ?>">
+								</a>
+							<?php endif; ?>
+							<div class="news-card-content">
+								<div class="news-card-meta">
+									<time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date() ); ?></time>
+								</div>
+								<h4 class="news-card-title">
+									<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+								</h4>
+								<div class="news-card-excerpt">
+									<?php the_excerpt(); ?>
+								</div>
+								<a href="<?php the_permalink(); ?>" class="news-card-link"><?php esc_html_e( 'Read more', 'sgescort-basic' ); ?> <i class="fa fa-arrow-right"></i></a>
+							</div>
+						</article>
+					</div>
+					<?php
+				endwhile;
+				wp_reset_postdata();
+			else :
+				?>
+				<div class="col-12 text-center">
+					<p><?php esc_html_e( 'No news posts yet.', 'sgescort-basic' ); ?></p>
+				</div>
+				<?php
+			endif;
+			?>
+		</div>
+		<?php
+			$blog_url = get_option( 'page_for_posts' ) ? get_permalink( get_option( 'page_for_posts' ) ) : home_url( '/' );
+			if ( $has_news && $blog_url ) :
+				?>
+			<div class="row mt-4">
+				<div class="col-12 text-center">
+					<a href="<?php echo esc_url( $blog_url ); ?>" class="slide-btn"><?php esc_html_e( 'View all news', 'sgescort-basic' ); ?></a>
+				</div>
+			</div>
+		<?php endif; ?>
+	</div>
+</section>
+
 <?php
 get_footer();
 

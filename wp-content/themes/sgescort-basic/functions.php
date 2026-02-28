@@ -35,6 +35,106 @@ if ( ! function_exists( 'sgescort_basic_setup' ) ) {
 add_action( 'after_setup_theme', 'sgescort_basic_setup' );
 
 /**
+ * Fallback when no Primary menu is assigned in Admin.
+ */
+function sgescort_basic_primary_menu_fallback() {
+	$items = array(
+		array( '#home', __( 'Home', 'sgescort-basic' ) ),
+		array( '#about', __( 'About', 'sgescort-basic' ) ),
+		array( '#services', __( 'Services', 'sgescort-basic' ) ),
+		array( '#portfolio', __( 'Portfolio', 'sgescort-basic' ) ),
+		array( '#contact', __( 'Contact', 'sgescort-basic' ) ),
+	);
+	echo '<ul id="primary-menu" class="navbar-nav ms-auto">';
+	foreach ( $items as $item ) {
+		printf(
+			'<li class="nav-item"><a class="nav-link" href="%1$s">%2$s</a></li>',
+			esc_url( $item[0] ),
+			esc_html( $item[1] )
+		);
+	}
+	echo '</ul>';
+}
+
+/**
+ * Add Bootstrap nav-item class to menu <li>.
+ *
+ * @param array $classes CSS classes.
+ * @return array
+ */
+function sgescort_basic_nav_menu_css_class( $classes ) {
+	$classes[] = 'nav-item';
+	return $classes;
+}
+add_filter( 'nav_menu_css_class', 'sgescort_basic_nav_menu_css_class' );
+
+/**
+ * Add Bootstrap nav-link class to menu <a>.
+ *
+ * @param array $atts Link attributes.
+ * @return array
+ */
+function sgescort_basic_nav_menu_link_attributes( $atts ) {
+	$atts['class'] = isset( $atts['class'] ) ? $atts['class'] . ' nav-link' : 'nav-link';
+	return $atts;
+}
+add_filter( 'nav_menu_link_attributes', 'sgescort_basic_nav_menu_link_attributes' );
+
+/**
+ * Register footer widget areas.
+ */
+function sgescort_basic_widgets_init() {
+	register_sidebar(
+		array(
+			'name'          => __( 'Footer Column 1', 'sgescort-basic' ),
+			'id'            => 'footer-1',
+			'description'   => __( 'Footer left column (logo & icons).', 'sgescort-basic' ),
+			'before_widget' => '<div id="%1$s" class="footer-widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h4 class="footer-head">',
+			'after_title'   => '</h4>',
+		)
+	);
+
+	register_sidebar(
+		array(
+			'name'          => __( 'Footer Column 2', 'sgescort-basic' ),
+			'id'            => 'footer-2',
+			'description'   => __( 'Footer middle column (contact info).', 'sgescort-basic' ),
+			'before_widget' => '<div id="%1$s" class="footer-widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h4 class="footer-head">',
+			'after_title'   => '</h4>',
+		)
+	);
+
+	register_sidebar(
+		array(
+			'name'          => __( 'Footer Column 3', 'sgescort-basic' ),
+			'id'            => 'footer-3',
+			'description'   => __( 'Footer right column (about text).', 'sgescort-basic' ),
+			'before_widget' => '<div id="%1$s" class="footer-widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h4 class="footer-head">',
+			'after_title'   => '</h4>',
+		)
+	);
+
+	register_sidebar(
+		array(
+			'name'          => __( 'Footer Copyright', 'sgescort-basic' ),
+			'id'            => 'footer-copyright',
+			'description'   => __( 'Footer bottom bar (copyright text).', 'sgescort-basic' ),
+			'before_widget' => '<div id="%1$s" class="copyright-widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<span class="screen-reader-text">',
+			'after_title'   => '</span>',
+		)
+	);
+}
+add_action( 'widgets_init', 'sgescort_basic_widgets_init' );
+
+/**
  * Enqueue theme styles.
  */
 function sgescort_basic_scripts() {

@@ -27,23 +27,18 @@
 			</button>
 
 			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav ms-auto">
-					<li class="nav-item">
-						<a class="nav-link" href="#home"><?php esc_html_e( 'Home', 'sgescort-basic' ); ?></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#about"><?php esc_html_e( 'About', 'sgescort-basic' ); ?></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#services"><?php esc_html_e( 'Services', 'sgescort-basic' ); ?></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#portfolio"><?php esc_html_e( 'Portfolio', 'sgescort-basic' ); ?></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#contact"><?php esc_html_e( 'Contact', 'sgescort-basic' ); ?></a>
-					</li>
-				</ul>
+				<?php
+				wp_nav_menu(
+					array(
+						'theme_location'  => 'primary',
+						'menu_id'         => 'primary-menu',
+						'menu_class'      => 'navbar-nav ms-auto',
+						'container'       => false,
+						'fallback_cb'     => 'sgescort_basic_primary_menu_fallback',
+						'depth'           => 1,
+					)
+				);
+				?>
 			</div>
 		</div>
 	</nav>
