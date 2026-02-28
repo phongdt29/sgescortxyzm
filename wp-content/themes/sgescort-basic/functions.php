@@ -345,3 +345,157 @@ function sgescort_basic_save_model_meta( $post_id ) {
 }
 add_action( 'save_post_sgescort_model', 'sgescort_basic_save_model_meta' );
 
+/**
+ * Set post thumbnail (featured image) from a file in html/images/.
+ *
+ * @param int    $post_id    Post ID.
+ * @param string $image_name File name (e.g. s2.jpg).
+ * @return int|false Attachment ID on success, false on failure.
+ */
+function sgescort_basic_set_post_thumbnail_from_file( $post_id, $image_name ) {
+	$base_paths = array(
+		ABSPATH . 'html/images/' . $image_name,
+		dirname( ABSPATH ) . '/html/images/' . $image_name,
+	);
+
+	$source_path = null;
+	foreach ( $base_paths as $path ) {
+		if ( file_exists( $path ) && is_readable( $path ) ) {
+			$source_path = $path;
+			break;
+		}
+	}
+
+	if ( ! $source_path ) {
+		return false;
+	}
+
+	$file_content = file_get_contents( $source_path );
+	if ( false === $file_content ) {
+		return false;
+	}
+
+	$upload = wp_upload_bits( $image_name, null, $file_content );
+	if ( ! empty( $upload['error'] ) ) {
+		return false;
+	}
+
+	$mime_type = wp_check_filetype( $upload['file'], null );
+	if ( empty( $mime_type['type'] ) ) {
+		$mime_type['type'] = 'image/jpeg';
+	}
+
+	$attach_id = wp_insert_attachment(
+		array(
+			'post_mime_type' => $mime_type['type'],
+			'post_title'     => sanitize_file_name( pathinfo( $image_name, PATHINFO_FILENAME ) ),
+			'post_content'   => '',
+			'post_status'    => 'inherit',
+		),
+		$upload['file'],
+		$post_id
+	);
+
+	if ( is_wp_error( $attach_id ) ) {
+		return false;
+	}
+
+	$meta = wp_generate_attachment_metadata( $attach_id, $upload['file'] );
+	if ( is_array( $meta ) ) {
+		wp_update_attachment_metadata( $attach_id, $meta );
+	}
+
+	set_post_thumbnail( $post_id, $attach_id );
+	return $attach_id;
+}
+
+/**
+ * Insert demo news posts (runs once on theme activation).
+ */
+function sgescort_basic_insert_demo_news() {
+	if ( get_option( 'sgescort_basic_demo_news_inserted', false ) ) {
+		return;
+	}
+
+	$demo_posts = array(
+		array(
+			'title'   => 'New Premium Models Join Singapore Escort Hub This Month',
+			'excerpt' => 'We are pleased to welcome several new premium companions to our roster. All profiles are verified and ready for booking via Telegram.',
+			'content' => '<p>Singapore Escort Hub continues to expand its selection of verified, professional companions. This month we have added new models who specialize in girlfriend experience, dinner dates, and travel companionship.</p><p>All new profiles are available on our main website and can be contacted through our 24/7 Telegram support. Booking remains discreet and straightforward.</p>',
+			'date'    => '2025-02-20',
+			'image'   => 's2.jpg',
+		),
+		array(
+			'title'   => '24/7 Booking Support Now Available in English & Chinese',
+			'excerpt' => 'Our customer service team now offers round-the-clock support in both English and Mandarin for easier booking and inquiries.',
+			'content' => '<p>To better serve our clients from Singapore and across the region, we have extended our support hours to 24/7. You can reach us via Telegram in English or Chinese (中文) for bookings, questions about services, or general inquiries.</p><p>We welcome Chinese-speaking guests and many of our companions are fluent in Mandarin.</p>',
+			'date'    => '2025-02-18',
+			'image'   => 's3.jpg',
+		),
+		array(
+			'title'   => 'Outcall & Hotel Service: What You Need to Know',
+			'excerpt' => 'A quick guide to booking outcall and hotel visits with our Singapore escorts. Discreet, professional, and easy to arrange.',
+			'content' => '<p>Most of our Singapore escorts offer outcall services to your hotel or private address. When booking, simply provide your location (hotel name or address) and your preferred time. Our team will confirm availability and arrange the visit.</p><p>Outcall is one of the most requested services on our platform. All visits are discreet and professional.</p>',
+			'date'    => '2025-02-15',
+			'image'   => 's4.jpg',
+		),
+		array(
+			'title'   => 'GFE & Companion Services: A Brief Overview',
+			'excerpt' => 'Girlfriend experience and companion services are among our most popular offerings. Here is a short overview of what to expect.',
+			'content' => '<p>Our girlfriend experience (GFE) and companion services are designed to provide a natural, intimate, and emotionally connected experience. Many clients choose these options for dinner dates, events, or travel companionship.</p><p>Each companion has her own style and preferences. Browse profiles on SG Escort Hub and contact us via Telegram to find the best match.</p>',
+			'date'    => '2025-02-12',
+			'image'   => 's5.jpg',
+		),
+		array(
+			'title'   => 'Privacy & Discretion: Our Commitment to Clients',
+			'excerpt' => 'Your privacy is our priority. We do not store or share your personal data. All bookings are handled with full discretion.',
+			'content' => '<p>Singapore Escort Hub is committed to 100% discretion. We do not save your personal information or share details with any third parties. All communication and bookings are treated as confidential.</p><p>You can book with confidence knowing that your privacy is protected at every step.</p>',
+			'date'    => '2025-02-10',
+			'image'   => 's6.jpg',
+		),
+		array(
+			'title'   => 'How to Book: Step-by-Step Guide for New Clients',
+			'excerpt' => 'New to our platform? Follow this simple guide to browse profiles, choose your companion, and complete your booking via Telegram.',
+			'content' => '<p>Booking with Singapore Escort Hub is simple. First, browse our website or Telegram channel to view verified profiles. Choose the companion and type of service you prefer, then contact our team via Telegram with your preferred date and time.</p><p>Our support staff are available 24/7 to answer questions and confirm your booking. We look forward to serving you.</p>',
+			'date'    => '2025-02-08',
+			'image'   => 's7.jpg',
+		),
+	);
+
+	require_once ABSPATH . 'wp-admin/includes/image.php';
+
+	foreach ( $demo_posts as $post_data ) {
+		$post_id = wp_insert_post(
+			array(
+				'post_title'   => $post_data['title'],
+				'post_content' => $post_data['content'],
+				'post_excerpt' => $post_data['excerpt'],
+				'post_status'  => 'publish',
+				'post_type'    => 'post',
+				'post_author'  => 1,
+				'post_date'    => $post_data['date'] . ' 10:00:00',
+			)
+		);
+
+		if ( $post_id && ! is_wp_error( $post_id ) && ! empty( $post_data['image'] ) ) {
+			sgescort_basic_set_post_thumbnail_from_file( $post_id, $post_data['image'] );
+		}
+	}
+
+	update_option( 'sgescort_basic_demo_news_inserted', true );
+}
+
+add_action( 'after_switch_theme', 'sgescort_basic_insert_demo_news' );
+
+// Insert demo news on first load if theme was already active (option not set).
+add_action( 'init', 'sgescort_basic_maybe_insert_demo_news' );
+function sgescort_basic_maybe_insert_demo_news() {
+	if ( get_option( 'sgescort_basic_demo_news_inserted', false ) ) {
+		return;
+	}
+	// Run only once per request and only in front-end to avoid duplicate inserts.
+	if ( ! is_admin() && ! wp_doing_ajax() ) {
+		sgescort_basic_insert_demo_news();
+	}
+}
+
