@@ -12,6 +12,16 @@ if ( ! function_exists( 'sgescort_basic_setup' ) ) {
 	function sgescort_basic_setup() {
 		add_theme_support( 'title-tag' );
 		add_theme_support( 'post-thumbnails' );
+		add_theme_support( 'automatic-feed-links' );
+		add_theme_support(
+			'custom-logo',
+			array(
+				'height'      => 120,
+				'width'       => 300,
+				'flex-height' => true,
+				'flex-width'  => true,
+			)
+		);
 		add_theme_support(
 			'html5',
 			array(
@@ -129,6 +139,18 @@ function sgescort_basic_widgets_init() {
 			'after_widget'  => '</div>',
 			'before_title'  => '<span class="screen-reader-text">',
 			'after_title'   => '</span>',
+		)
+	);
+
+	register_sidebar(
+		array(
+			'name'          => __( 'Sidebar', 'sgescort-basic' ),
+			'id'            => 'sidebar-1',
+			'description'   => __( 'Main sidebar. Shown on blog and single post when active.', 'sgescort-basic' ),
+			'before_widget' => '<div id="%1$s" class="widget %2$s mb-4">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h3 class="widget-title h6">',
+			'after_title'   => '</h3>',
 		)
 	);
 }

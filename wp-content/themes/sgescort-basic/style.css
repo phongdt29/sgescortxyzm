@@ -137,3 +137,51 @@ a:hover {
   margin-left: 0.25rem;
 }
 
+/* Pagination */
+.pagination-wrap .nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.pagination-wrap .page-numbers {
+  padding: 0.35rem 0.75rem;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+}
+
+.pagination-wrap .page-numbers.current {
+  background: #0d6efd;
+  color: #fff;
+  border-color: #0d6efd;
+}
+
+/* Comments */
+.comments-area .comment-list {
+  padding-left: 0;
+}
+
+.comments-area .comment-body {
+  padding: 1rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.comments-area .comment-author img {
+  border-radius: 50%;
+  margin-right: 0.75rem;
+}
+
+.comments-area .reply {
+  margin-top: 0.5rem;
+}
+
+/* Accessibility */
+.screen-reader-text {
+  clip: rect(1px, 1px, 1px, 1px);
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+

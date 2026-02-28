@@ -1,6 +1,6 @@
 <?php
 /**
- * Main template file (blog index, fallback).
+ * Blog index template (used when a static front page is set).
  *
  * @package sgescort-basic
  */
@@ -10,6 +10,9 @@ get_header();
 
 <main id="primary" class="site-main">
 	<div class="container py-5">
+		<header class="page-header mb-4">
+			<h1 class="page-title"><?php single_post_title(); ?></h1>
+		</header>
 		<div class="row">
 			<div class="<?php echo is_active_sidebar( 'sidebar-1' ) ? 'col-lg-8' : 'col-12'; ?>">
 				<?php if ( have_posts() ) : ?>
@@ -17,9 +20,9 @@ get_header();
 						<?php the_post(); ?>
 						<article id="post-<?php the_ID(); ?>" <?php post_class( 'mb-5' ); ?>>
 							<header class="entry-header">
-								<h1 class="entry-title h3">
+								<h2 class="entry-title h3">
 									<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-								</h1>
+								</h2>
 								<div class="entry-meta text-muted small">
 									<?php echo esc_html( get_the_date() ); ?>
 									<?php esc_html_e( ' by ', 'sgescort-basic' ); ?>
@@ -55,4 +58,3 @@ get_header();
 
 <?php
 get_footer();
-
