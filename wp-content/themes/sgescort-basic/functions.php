@@ -11,6 +11,9 @@ if ( ! function_exists( 'sgescort_basic_setup' ) ) {
 	 */
 	function sgescort_basic_setup() {
 		add_theme_support( 'title-tag' );
+		add_theme_support( 'post-formats', array( 'standard' ) );
+
+		
 		add_theme_support( 'post-thumbnails' );
 		add_theme_support( 'automatic-feed-links' );
 		add_theme_support(
@@ -310,7 +313,7 @@ function sgescort_basic_register_cpts() {
 			),
 			'public'       => true,
 			'show_in_menu' => true,
-			'supports'     => array( 'title', 'custom-fields', 'page-attributes' ),
+			'supports'     => array( 'title', 'page-attributes' ),
 			'has_archive'  => false,
 			'show_in_rest' => true,
 		)
@@ -326,7 +329,7 @@ function sgescort_basic_register_cpts() {
 			),
 			'public'       => true,
 			'show_in_menu' => true,
-			'supports'     => array( 'title', 'custom-fields', 'page-attributes' ),
+			'supports'     => array( 'title', 'page-attributes' ),
 			'has_archive'  => false,
 			'show_in_rest' => true,
 		)
@@ -336,15 +339,15 @@ function sgescort_basic_register_cpts() {
 	register_post_type(
 		'sgescort_portfolio_section',
 		array(
-			'labels'       => array(
+			'labels'        => array(
 				'name'          => __( 'Portfolio Sections', 'sgescort-basic' ),
 				'singular_name' => __( 'Portfolio Section', 'sgescort-basic' ),
 			),
-			'public'       => true,
-			'show_in_menu' => true,
-			'supports'     => array( 'title', 'custom-fields', 'page-attributes' ),
-			'has_archive'  => false,
-			'show_in_rest' => true,
+			'public'        => true,
+			'show_in_menu'  => true,
+			'supports'      => array( 'title', 'custom-fields', 'page-attributes', 'post-formats' ),
+			'has_archive'   => false,
+			'show_in_rest'  => false,
 		)
 	);
 
@@ -358,7 +361,7 @@ function sgescort_basic_register_cpts() {
 			),
 			'public'       => true,
 			'show_in_menu' => true,
-			'supports'     => array( 'title', 'custom-fields', 'page-attributes' ),
+			'supports'     => array( 'title', 'page-attributes' ),
 			'has_archive'  => false,
 			'show_in_rest' => true,
 		)
@@ -374,7 +377,7 @@ function sgescort_basic_register_cpts() {
 			),
 			'public'       => true,
 			'show_in_menu' => true,
-			'supports'     => array( 'title', 'custom-fields', 'page-attributes' ),
+			'supports'     => array( 'title', 'page-attributes' ),
 			'has_archive'  => false,
 			'show_in_rest' => true,
 		)
@@ -390,7 +393,7 @@ function sgescort_basic_register_cpts() {
 			),
 			'public'       => true,
 			'show_in_menu' => true,
-			'supports'     => array( 'title', 'custom-fields', 'page-attributes' ),
+			'supports'     => array( 'title', 'page-attributes' ),
 			'has_archive'  => false,
 			'show_in_rest' => true,
 		)
@@ -406,7 +409,7 @@ function sgescort_basic_register_cpts() {
 			),
 			'public'       => true,
 			'show_in_menu' => true,
-			'supports'     => array( 'title', 'custom-fields', 'page-attributes' ),
+			'supports'     => array( 'title', 'page-attributes' ),
 			'has_archive'  => false,
 			'show_in_rest' => true,
 		)
@@ -422,7 +425,7 @@ function sgescort_basic_register_cpts() {
 			),
 			'public'       => true,
 			'show_in_menu' => true,
-			'supports'     => array( 'title',	'custom-fields', 'page-attributes' ),
+			'supports'     => array( 'title', 'page-attributes' ),
 			'has_archive'  => false,
 			'show_in_rest' => true,
 		)
@@ -519,6 +522,29 @@ function sgescort_basic_portfolio_section_meta_boxes() {
 	);
 }
 add_action( 'add_meta_boxes', 'sgescort_basic_portfolio_section_meta_boxes' );
+
+/**
+ * Remove post format metabox from all sgescort section CPTs to prevent
+ * "Định dạng bài viết không hợp lệ" error in wp-admin.
+ */
+function sgescort_basic_remove_format_metaboxes() {
+	$cpts = array(
+		'sgescort_portfolio_section',
+		'sgescort_services_section',
+		'sgescort_team_section',
+		'sgescort_faq_section',
+		'sgescort_news_section',
+		'sgescort_counter_section',
+		'sgescort_banner_section',
+		'sgescort_testimonials_section',
+		'sgescort_hero',
+		'sgescort_about',
+	);
+	foreach ( $cpts as $cpt ) {
+		remove_meta_box( 'formatdiv', $cpt, 'side' );
+	}
+}
+add_action( 'add_meta_boxes', 'sgescort_basic_remove_format_metaboxes', 99 );
 
 /**
  * Meta box for FAQ Section.
