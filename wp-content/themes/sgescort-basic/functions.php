@@ -267,6 +267,38 @@ function sgescort_basic_register_cpts() {
 			'show_in_rest' => true,
 		)
 	);
+
+	// Hero.
+	register_post_type(
+		'sgescort_hero',
+		array(
+			'labels'       => array(
+				'name'          => __( 'Hero Sections', 'sgescort-basic' ),
+				'singular_name' => __( 'Hero Section', 'sgescort-basic' ),
+			),
+			'public'       => true,
+			'show_in_menu' => true,
+			'supports'     => array( 'title', 'page-attributes' ),
+			'has_archive'  => false,
+			'show_in_rest' => true,
+		)
+	);
+
+	// About.
+	register_post_type(
+		'sgescort_about',
+		array(
+			'labels'       => array(
+				'name'          => __( 'About Sections', 'sgescort-basic' ),
+				'singular_name' => __( 'About Section', 'sgescort-basic' ),
+			),
+			'public'       => true,
+			'show_in_menu' => true,
+			'supports'     => array( 'title', 'editor', 'thumbnail', 'page-attributes' ),
+			'has_archive'  => false,
+			'show_in_rest' => true,
+		)
+	);
 }
 add_action( 'init', 'sgescort_basic_register_cpts' );
 
@@ -286,6 +318,36 @@ function sgescort_basic_model_meta_boxes() {
 add_action( 'add_meta_boxes', 'sgescort_basic_model_meta_boxes' );
 
 /**
+ * Meta box for Hero Section.
+ */
+function sgescort_basic_hero_meta_boxes() {
+	add_meta_box(
+		'sgescort_hero_meta',
+		__( 'Hero Details', 'sgescort-basic' ),
+		'sgescort_basic_hero_meta_box_html',
+		'sgescort_hero',
+		'normal',
+		'default'
+	);
+}
+add_action( 'add_meta_boxes', 'sgescort_basic_hero_meta_boxes' );
+
+/**
+ * Meta box for About Section.
+ */
+function sgescort_basic_about_meta_boxes() {
+	add_meta_box(
+		'sgescort_about_meta',
+		__( 'About Details', 'sgescort-basic' ),
+		'sgescort_basic_about_meta_box_html',
+		'sgescort_about',
+		'normal',
+		'default'
+	);
+}
+add_action( 'add_meta_boxes', 'sgescort_basic_about_meta_boxes' );
+
+/**
  * Meta box HTML for model CPT.
  *
  * @param WP_Post $post Current post.
@@ -303,6 +365,85 @@ function sgescort_basic_model_meta_box_html( $post ) {
 	<p>
 		<label for="sgescort_model_profile_url"><?php esc_html_e( 'Profile URL', 'sgescort-basic' ); ?></label><br>
 		<input type="url" id="sgescort_model_profile_url" name="sgescort_model_profile_url" class="widefat" value="<?php echo esc_attr( $profile_url ); ?>">
+	</p>
+	<?php
+}
+
+/**
+ * Meta box HTML for hero CPT.
+ *
+ * @param WP_Post $post Current post.
+ */
+function sgescort_basic_hero_meta_box_html( $post ) {
+	wp_nonce_field( 'sgescort_hero_meta_save', 'sgescort_hero_meta_nonce' );
+
+	$title1 = get_post_meta( $post->ID, '_sgescort_hero_title1', true );
+	$title2 = get_post_meta( $post->ID, '_sgescort_hero_title2', true );
+	$button1_text = get_post_meta( $post->ID, '_sgescort_hero_button1_text', true );
+	$button1_url = get_post_meta( $post->ID, '_sgescort_hero_button1_url', true );
+	$button2_text = get_post_meta( $post->ID, '_sgescort_hero_button2_text', true );
+	$button2_url = get_post_meta( $post->ID, '_sgescort_hero_button2_url', true );
+	?>
+	<p>
+		<label for="sgescort_hero_title1"><?php esc_html_e( 'Hero Subtitle', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_hero_title1" name="sgescort_hero_title1" class="widefat" value="<?php echo esc_attr( $title1 ); ?>" placeholder="#1 Best Directory Singapore (SG)">
+	</p>
+	<p>
+		<label for="sgescort_hero_title2"><?php esc_html_e( 'Hero Main Title', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_hero_title2" name="sgescort_hero_title2" class="widefat" value="<?php echo esc_attr( $title2 ); ?>" placeholder="Singapore Escort Hub">
+	</p>
+	<p>
+		<label for="sgescort_hero_button1_text"><?php esc_html_e( 'Button 1 Text', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_hero_button1_text" name="sgescort_hero_button1_text" class="widefat" value="<?php echo esc_attr( $button1_text ); ?>" placeholder="Visit SGESCORTHUB.COM">
+	</p>
+	<p>
+		<label for="sgescort_hero_button1_url"><?php esc_html_e( 'Button 1 URL', 'sgescort-basic' ); ?></label><br>
+		<input type="url" id="sgescort_hero_button1_url" name="sgescort_hero_button1_url" class="widefat" value="<?php echo esc_attr( $button1_url ); ?>" placeholder="https://sgescorthub.com/">
+	</p>
+	<p>
+		<label for="sgescort_hero_button2_text"><?php esc_html_e( 'Button 2 Text', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_hero_button2_text" name="sgescort_hero_button2_text" class="widefat" value="<?php echo esc_attr( $button2_text ); ?>" placeholder="Visit Telegram">
+	</p>
+	<p>
+		<label for="sgescort_hero_button2_url"><?php esc_html_e( 'Button 2 URL', 'sgescort-basic' ); ?></label><br>
+		<input type="url" id="sgescort_hero_button2_url" name="sgescort_hero_button2_url" class="widefat" value="<?php echo esc_attr( $button2_url ); ?>" placeholder="https://t.me/+qQYECOoAHgZhNzU1">
+	</p>
+	<?php
+}
+
+/**
+ * Meta box HTML for about CPT.
+ *
+ * @param WP_Post $post Current post.
+ */
+function sgescort_basic_about_meta_box_html( $post ) {
+	wp_nonce_field( 'sgescort_about_meta_save', 'sgescort_about_meta_nonce' );
+
+	$subtitle = get_post_meta( $post->ID, '_sgescort_about_subtitle', true );
+	$button1_text = get_post_meta( $post->ID, '_sgescort_about_button1_text', true );
+	$button1_url = get_post_meta( $post->ID, '_sgescort_about_button1_url', true );
+	$button2_text = get_post_meta( $post->ID, '_sgescort_about_button2_text', true );
+	$button2_url = get_post_meta( $post->ID, '_sgescort_about_button2_url', true );
+	?>
+	<p>
+		<label for="sgescort_about_subtitle"><?php esc_html_e( 'About Subtitle', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_about_subtitle" name="sgescort_about_subtitle" class="widefat" value="<?php echo esc_attr( $subtitle ); ?>" placeholder="About Us">
+	</p>
+	<p>
+		<label for="sgescort_about_button1_text"><?php esc_html_e( 'Button 1 Text', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_about_button1_text" name="sgescort_about_button1_text" class="widefat" value="<?php echo esc_attr( $button1_text ); ?>" placeholder="Visit">
+	</p>
+	<p>
+		<label for="sgescort_about_button1_url"><?php esc_html_e( 'Button 1 URL', 'sgescort-basic' ); ?></label><br>
+		<input type="url" id="sgescort_about_button1_url" name="sgescort_about_button1_url" class="widefat" value="<?php echo esc_attr( $button1_url ); ?>" placeholder="https://sgescorthub.com/">
+	</p>
+	<p>
+		<label for="sgescort_about_button2_text"><?php esc_html_e( 'Button 2 Text', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_about_button2_text" name="sgescort_about_button2_text" class="widefat" value="<?php echo esc_attr( $button2_text ); ?>" placeholder="Join Telegram">
+	</p>
+	<p>
+		<label for="sgescort_about_button2_url"><?php esc_html_e( 'Button 2 URL', 'sgescort-basic' ); ?></label><br>
+		<input type="url" id="sgescort_about_button2_url" name="sgescort_about_button2_url" class="widefat" value="<?php echo esc_attr( $button2_url ); ?>" placeholder="https://t.me/+qQYECOoAHgZhNzU1">
 	</p>
 	<?php
 }
@@ -344,6 +485,91 @@ function sgescort_basic_save_model_meta( $post_id ) {
 	}
 }
 add_action( 'save_post_sgescort_model', 'sgescort_basic_save_model_meta' );
+
+/**
+ * Save hero meta.
+ *
+ * @param int $post_id Post ID.
+ */
+function sgescort_basic_save_hero_meta( $post_id ) {
+	if ( ! isset( $_POST['sgescort_hero_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sgescort_hero_meta_nonce'] ) ), 'sgescort_hero_meta_save' ) ) {
+		return;
+	}
+
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+
+	if ( isset( $_POST['post_type'] ) && 'sgescort_hero' === $_POST['post_type'] ) {
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+	}
+
+	$fields = array(
+		'sgescort_hero_title1',
+		'sgescort_hero_title2',
+		'sgescort_hero_button1_text',
+		'sgescort_hero_button1_url',
+		'sgescort_hero_button2_text',
+		'sgescort_hero_button2_url',
+	);
+
+	foreach ( $fields as $field ) {
+		if ( isset( $_POST[ $field ] ) ) {
+			$value = wp_unslash( $_POST[ $field ] );
+			if ( strpos( $field, '_url' ) !== false ) {
+				$value = esc_url_raw( $value );
+			} else {
+				$value = sanitize_text_field( $value );
+			}
+			update_post_meta( $post_id, '_' . $field, $value );
+		}
+	}
+}
+add_action( 'save_post_sgescort_hero', 'sgescort_basic_save_hero_meta' );
+
+/**
+ * Save about meta.
+ *
+ * @param int $post_id Post ID.
+ */
+function sgescort_basic_save_about_meta( $post_id ) {
+	if ( ! isset( $_POST['sgescort_about_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sgescort_about_meta_nonce'] ) ), 'sgescort_about_meta_save' ) ) {
+		return;
+	}
+
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+
+	if ( isset( $_POST['post_type'] ) && 'sgescort_about' === $_POST['post_type'] ) {
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+	}
+
+	$fields = array(
+		'sgescort_about_subtitle',
+		'sgescort_about_button1_text',
+		'sgescort_about_button1_url',
+		'sgescort_about_button2_text',
+		'sgescort_about_button2_url',
+	);
+
+	foreach ( $fields as $field ) {
+		if ( isset( $_POST[ $field ] ) ) {
+			$value = wp_unslash( $_POST[ $field ] );
+			if ( strpos( $field, '_url' ) !== false ) {
+				$value = esc_url_raw( $value );
+			} else {
+				$value = sanitize_text_field( $value );
+			}
+			update_post_meta( $post_id, '_' . $field, $value );
+		}
+	}
+}
+add_action( 'save_post_sgescort_about', 'sgescort_basic_save_about_meta' );
 
 /**
  * Set post thumbnail (featured image) from a file in html/images/.
@@ -498,4 +724,10 @@ function sgescort_basic_maybe_insert_demo_news() {
 		sgescort_basic_insert_demo_news();
 	}
 }
+
+
+
+
+
+
 

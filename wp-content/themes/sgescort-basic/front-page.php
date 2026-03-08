@@ -1,14 +1,8 @@
-<?php
-/**
- * Front page template based on static HTML landing page.
- *
- * @package sgescort-basic
- */
-
 get_header();
 
 if ( have_posts() ) {
 	the_post();
+	$post_id = get_the_ID();
 }
 ?>
 
@@ -18,14 +12,59 @@ if ( have_posts() ) {
 		<div class="row">
 			<div class="col-12">
 				<div class="slide-content">
-					<span class="title1">#1 Best Directory Singapore (SG)</span>
-					<h1 class="title2">
-						<?php bloginfo( 'name' ); ?>
-					</h1>
-					<div class="slider-button">
-						<a class="slide-btn" href="https://sgescorthub.com/">Visit SGESCORTHUB.COM</a>
-						<a class="slide-btn" href="https://t.me/+qQYECOoAHgZhNzU1" rel="nofollow">Visit Telegram</a>
-					</div>
+					<?php
+					$hero_query = new WP_Query(
+						array(
+							'post_type'      => 'sgescort_hero',
+							'posts_per_page' => 1,
+							'orderby'        => 'menu_order',
+							'order'          => 'ASC',
+						)
+					);
+
+					if ( $hero_query->have_posts() ) :
+						while ( $hero_query->have_posts() ) :
+							$hero_query->the_post();
+							$hero_id = get_the_ID();
+							$title1 = get_post_meta( $hero_id, '_sgescort_hero_title1', true );
+							$title2 = get_post_meta( $hero_id, '_sgescort_hero_title2', true );
+							$button1_text = get_post_meta( $hero_id, '_sgescort_hero_button1_text', true );
+							$button1_url = get_post_meta( $hero_id, '_sgescort_hero_button1_url', true );
+							$button2_text = get_post_meta( $hero_id, '_sgescort_hero_button2_text', true );
+							$button2_url = get_post_meta( $hero_id, '_sgescort_hero_button2_url', true );
+							?>
+							<span class="title1"><?php echo esc_html( $title1 ?: '#1 Best Directory Singapore (SG)' ); ?></span>
+							<h1 class="title2">
+								<?php echo esc_html( $title2 ?: get_bloginfo( 'name' ) ); ?>
+							</h1>
+							<div class="slider-button">
+								<?php if ( $button1_text && $button1_url ) : ?>
+									<a class="slide-btn" href="<?php echo esc_url( $button1_url ); ?>"><?php echo esc_html( $button1_text ); ?></a>
+								<?php else : ?>
+									<a class="slide-btn" href="https://sgescorthub.com/">Visit SGESCORTHUB.COM</a>
+								<?php endif; ?>
+								<?php if ( $button2_text && $button2_url ) : ?>
+									<a class="slide-btn" href="<?php echo esc_url( $button2_url ); ?>"><?php echo esc_html( $button2_text ); ?></a>
+								<?php else : ?>
+									<a class="slide-btn" href="https://t.me/+qQYECOoAHgZhNzU1" rel="nofollow">Visit Telegram</a>
+								<?php endif; ?>
+							</div>
+							<?php
+						endwhile;
+						wp_reset_postdata();
+					else :
+						?>
+						<span class="title1">#1 Best Directory Singapore (SG)</span>
+						<h1 class="title2">
+							<?php bloginfo( 'name' ); ?>
+						</h1>
+						<div class="slider-button">
+							<a class="slide-btn" href="https://sgescorthub.com/">Visit SGESCORTHUB.COM</a>
+							<a class="slide-btn" href="https://t.me/+qQYECOoAHgZhNzU1" rel="nofollow">Visit Telegram</a>
+						</div>
+						<?php
+					endif;
+					?>
 				</div>
 			</div>
 		</div>
