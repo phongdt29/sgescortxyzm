@@ -11,9 +11,6 @@ if ( ! function_exists( 'sgescort_basic_setup' ) ) {
 	 */
 	function sgescort_basic_setup() {
 		add_theme_support( 'title-tag' );
-		add_theme_support( 'post-formats', array( 'standard' ) );
-
-		
 		add_theme_support( 'post-thumbnails' );
 		add_theme_support( 'automatic-feed-links' );
 		add_theme_support(
@@ -305,7 +302,7 @@ function sgescort_basic_register_cpts() {
 
 	// Services Section.
 	register_post_type(
-		'sgescort_services_section',
+		'sge_services',
 		array(
 			'labels'       => array(
 				'name'          => __( 'Services Sections', 'sgescort-basic' ),
@@ -321,7 +318,7 @@ function sgescort_basic_register_cpts() {
 
 	// Team Section.
 	register_post_type(
-		'sgescort_team_section',
+		'sge_team',
 		array(
 			'labels'       => array(
 				'name'          => __( 'Team Sections', 'sgescort-basic' ),
@@ -337,7 +334,7 @@ function sgescort_basic_register_cpts() {
 
 	// Portfolio Section.
 	register_post_type(
-		'sgescort_portfolio_section',
+		'sge_portfolio',
 		array(
 			'labels'        => array(
 				'name'          => __( 'Portfolio Sections', 'sgescort-basic' ),
@@ -345,7 +342,7 @@ function sgescort_basic_register_cpts() {
 			),
 			'public'        => true,
 			'show_in_menu'  => true,
-			'supports'      => array( 'title', 'custom-fields', 'page-attributes', 'post-formats' ),
+			'supports'      => array( 'title', 'custom-fields', 'page-attributes' ),
 			'has_archive'   => false,
 			'show_in_rest'  => false,
 		)
@@ -369,7 +366,7 @@ function sgescort_basic_register_cpts() {
 
 	// News Section.
 	register_post_type(
-		'sgescort_news_section',
+		'sge_news',
 		array(
 			'labels'       => array(
 				'name'          => __( 'News Sections', 'sgescort-basic' ),
@@ -385,7 +382,7 @@ function sgescort_basic_register_cpts() {
 
 	// Counter Section.
 	register_post_type(
-		'sgescort_counter_section',
+		'sge_counter',
 		array(
 			'labels'       => array(
 				'name'          => __( 'Counter Sections', 'sgescort-basic' ),
@@ -401,7 +398,7 @@ function sgescort_basic_register_cpts() {
 
 	// Banner Section.
 	register_post_type(
-		'sgescort_banner_section',
+		'sge_banner',
 		array(
 			'labels'       => array(
 				'name'          => __( 'Banner Sections', 'sgescort-basic' ),
@@ -417,7 +414,7 @@ function sgescort_basic_register_cpts() {
 
 	// Testimonials Section.
 	register_post_type(
-		'sgescort_testimonials_section',
+		'sge_testimonials',
 		array(
 			'labels'       => array(
 				'name'          => __( 'Testimonials Sections', 'sgescort-basic' ),
@@ -483,10 +480,10 @@ add_action( 'add_meta_boxes', 'sgescort_basic_about_meta_boxes' );
  */
 function sgescort_basic_services_section_meta_boxes() {
 	add_meta_box(
-		'sgescort_services_section_meta',
+		'sge_services_meta',
 		__( 'Services Section Details', 'sgescort-basic' ),
 		'sgescort_basic_services_section_meta_box_html',
-		'sgescort_services_section',
+		'sge_services',
 		'normal',
 		'default'
 	);
@@ -498,10 +495,10 @@ add_action( 'add_meta_boxes', 'sgescort_basic_services_section_meta_boxes' );
  */
 function sgescort_basic_team_section_meta_boxes() {
 	add_meta_box(
-		'sgescort_team_section_meta',
+		'sge_team_meta',
 		__( 'Team Section Details', 'sgescort-basic' ),
 		'sgescort_basic_team_section_meta_box_html',
-		'sgescort_team_section',
+		'sge_team',
 		'normal',
 		'default'
 	);
@@ -513,10 +510,10 @@ add_action( 'add_meta_boxes', 'sgescort_basic_team_section_meta_boxes' );
  */
 function sgescort_basic_portfolio_section_meta_boxes() {
 	add_meta_box(
-		'sgescort_portfolio_section_meta',
+		'sge_portfolio_meta',
 		__( 'Portfolio Section Details', 'sgescort-basic' ),
 		'sgescort_basic_portfolio_section_meta_box_html',
-		'sgescort_portfolio_section',
+		'sge_portfolio',
 		'normal',
 		'default'
 	);
@@ -529,14 +526,14 @@ add_action( 'add_meta_boxes', 'sgescort_basic_portfolio_section_meta_boxes' );
  */
 function sgescort_basic_remove_format_metaboxes() {
 	$cpts = array(
-		'sgescort_portfolio_section',
-		'sgescort_services_section',
-		'sgescort_team_section',
+		'sge_portfolio',
+		'sge_services',
+		'sge_team',
 		'sgescort_faq_section',
-		'sgescort_news_section',
-		'sgescort_counter_section',
-		'sgescort_banner_section',
-		'sgescort_testimonials_section',
+		'sge_news',
+		'sge_counter',
+		'sge_banner',
+		'sge_testimonials',
 		'sgescort_hero',
 		'sgescort_about',
 	);
@@ -566,10 +563,10 @@ add_action( 'add_meta_boxes', 'sgescort_basic_faq_section_meta_boxes' );
  */
 function sgescort_basic_news_section_meta_boxes() {
 	add_meta_box(
-		'sgescort_news_section_meta',
+		'sge_news_meta',
 		__( 'News Section Details', 'sgescort-basic' ),
 		'sgescort_basic_news_section_meta_box_html',
-		'sgescort_news_section',
+		'sge_news',
 		'normal',
 		'default'
 	);
@@ -581,10 +578,10 @@ add_action( 'add_meta_boxes', 'sgescort_basic_news_section_meta_boxes' );
  */
 function sgescort_basic_counter_section_meta_boxes() {
 	add_meta_box(
-		'sgescort_counter_section_meta',
+		'sge_counter_meta',
 		__( 'Counter Section Details', 'sgescort-basic' ),
 		'sgescort_basic_counter_section_meta_box_html',
-		'sgescort_counter_section',
+		'sge_counter',
 		'normal',
 		'default'
 	);
@@ -593,10 +590,10 @@ add_action( 'add_meta_boxes', 'sgescort_basic_counter_section_meta_boxes' );
 
 function sgescort_basic_banner_section_meta_boxes() {
 	add_meta_box(
-		'sgescort_banner_section_meta',
+		'sge_banner_meta',
 		__( 'Banner Section Details', 'sgescort-basic' ),
 		'sgescort_basic_banner_section_meta_box_html',
-		'sgescort_banner_section',
+		'sge_banner',
 		'normal',
 		'default'
 	);
@@ -605,10 +602,10 @@ add_action( 'add_meta_boxes', 'sgescort_basic_banner_section_meta_boxes' );
 
 function sgescort_basic_testimonials_section_meta_boxes() {
 	add_meta_box(
-		'sgescort_testimonials_section_meta',
+		'sge_testimonials_meta',
 		__( 'Testimonials Section Details', 'sgescort-basic' ),
 		'sgescort_basic_testimonials_section_meta_box_html',
-		'sgescort_testimonials_section',
+		'sge_testimonials',
 		'normal',
 		'default'
 	);
@@ -727,18 +724,18 @@ function sgescort_basic_about_meta_box_html( $post ) {
  * @param WP_Post $post Current post.
  */
 function sgescort_basic_services_section_meta_box_html( $post ) {
-	wp_nonce_field( 'sgescort_services_section_meta_save', 'sgescort_services_section_meta_nonce' );
+	wp_nonce_field( 'sge_services_meta_save', 'sge_services_meta_nonce' );
 
-	$subtitle = get_post_meta( $post->ID, '_sgescort_services_section_subtitle', true );
-	$title = get_post_meta( $post->ID, '_sgescort_services_section_title', true );
+	$subtitle = get_post_meta( $post->ID, '_sge_services_subtitle', true );
+	$title = get_post_meta( $post->ID, '_sge_services_title', true );
 	?>
 	<p>
-		<label for="sgescort_services_section_subtitle"><?php esc_html_e( 'Services Subtitle', 'sgescort-basic' ); ?></label><br>
-		<input type="text" id="sgescort_services_section_subtitle" name="sgescort_services_section_subtitle" class="widefat" value="<?php echo esc_attr( $subtitle ); ?>" placeholder="Services">
+		<label for="sge_services_subtitle"><?php esc_html_e( 'Services Subtitle', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sge_services_subtitle" name="sge_services_subtitle" class="widefat" value="<?php echo esc_attr( $subtitle ); ?>" placeholder="Services">
 	</p>
 	<p>
-		<label for="sgescort_services_section_title"><?php esc_html_e( 'Services Title', 'sgescort-basic' ); ?></label><br>
-		<input type="text" id="sgescort_services_section_title" name="sgescort_services_section_title" class="widefat" value="<?php echo esc_attr( $title ); ?>" placeholder="Our Singapore Escort Hub Services">
+		<label for="sge_services_title"><?php esc_html_e( 'Services Title', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sge_services_title" name="sge_services_title" class="widefat" value="<?php echo esc_attr( $title ); ?>" placeholder="Our Singapore Escort Hub Services">
 	</p>
 	<?php
 }
@@ -749,18 +746,18 @@ function sgescort_basic_services_section_meta_box_html( $post ) {
  * @param WP_Post $post Current post.
  */
 function sgescort_basic_team_section_meta_box_html( $post ) {
-	wp_nonce_field( 'sgescort_team_section_meta_save', 'sgescort_team_section_meta_nonce' );
+	wp_nonce_field( 'sge_team_meta_save', 'sge_team_meta_nonce' );
 
-	$subtitle = get_post_meta( $post->ID, '_sgescort_team_section_subtitle', true );
-	$title = get_post_meta( $post->ID, '_sgescort_team_section_title', true );
+	$subtitle = get_post_meta( $post->ID, '_sge_team_subtitle', true );
+	$title = get_post_meta( $post->ID, '_sge_team_title', true );
 	?>
 	<p>
-		<label for="sgescort_team_section_subtitle"><?php esc_html_e( 'Team Subtitle', 'sgescort-basic' ); ?></label><br>
-		<input type="text" id="sgescort_team_section_subtitle" name="sgescort_team_section_subtitle" class="widefat" value="<?php echo esc_attr( $subtitle ); ?>" placeholder="TOP Models">
+		<label for="sge_team_subtitle"><?php esc_html_e( 'Team Subtitle', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sge_team_subtitle" name="sge_team_subtitle" class="widefat" value="<?php echo esc_attr( $subtitle ); ?>" placeholder="TOP Models">
 	</p>
 	<p>
-		<label for="sgescort_team_section_title"><?php esc_html_e( 'Team Title', 'sgescort-basic' ); ?></label><br>
-		<input type="text" id="sgescort_team_section_title" name="sgescort_team_section_title" class="widefat" value="<?php echo esc_attr( $title ); ?>" placeholder="Meet Our Models">
+		<label for="sge_team_title"><?php esc_html_e( 'Team Title', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sge_team_title" name="sge_team_title" class="widefat" value="<?php echo esc_attr( $title ); ?>" placeholder="Meet Our Models">
 	</p>
 	<?php
 }
@@ -771,18 +768,18 @@ function sgescort_basic_team_section_meta_box_html( $post ) {
  * @param WP_Post $post Current post.
  */
 function sgescort_basic_portfolio_section_meta_box_html( $post ) {
-	wp_nonce_field( 'sgescort_portfolio_section_meta_save', 'sgescort_portfolio_section_meta_nonce' );
+	wp_nonce_field( 'sge_portfolio_meta_save', 'sge_portfolio_meta_nonce' );
 
-	$subtitle = get_post_meta( $post->ID, '_sgescort_portfolio_section_subtitle', true );
-	$title = get_post_meta( $post->ID, '_sgescort_portfolio_section_title', true );
+	$subtitle = get_post_meta( $post->ID, '_sge_portfolio_subtitle', true );
+	$title = get_post_meta( $post->ID, '_sge_portfolio_title', true );
 	?>
 	<p>
-		<label for="sgescort_portfolio_section_subtitle"><?php esc_html_e( 'Portfolio Subtitle', 'sgescort-basic' ); ?></label><br>
-		<input type="text" id="sgescort_portfolio_section_subtitle" name="sgescort_portfolio_section_subtitle" class="widefat" value="<?php echo esc_attr( $subtitle ); ?>" placeholder="Gallery">
+		<label for="sge_portfolio_subtitle"><?php esc_html_e( 'Portfolio Subtitle', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sge_portfolio_subtitle" name="sge_portfolio_subtitle" class="widefat" value="<?php echo esc_attr( $subtitle ); ?>" placeholder="Gallery">
 	</p>
 	<p>
-		<label for="sgescort_portfolio_section_title"><?php esc_html_e( 'Portfolio Title', 'sgescort-basic' ); ?></label><br>
-		<input type="text" id="sgescort_portfolio_section_title" name="sgescort_portfolio_section_title" class="widefat" value="<?php echo esc_attr( $title ); ?>" placeholder="SG SCORT HUB PORTFOLIO">
+		<label for="sge_portfolio_title"><?php esc_html_e( 'Portfolio Title', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sge_portfolio_title" name="sge_portfolio_title" class="widefat" value="<?php echo esc_attr( $title ); ?>" placeholder="SG SCORT HUB PORTFOLIO">
 	</p>
 	<?php
 }
@@ -815,18 +812,18 @@ function sgescort_basic_faq_section_meta_box_html( $post ) {
  * @param WP_Post $post Current post.
  */
 function sgescort_basic_news_section_meta_box_html( $post ) {
-	wp_nonce_field( 'sgescort_news_section_meta_save', 'sgescort_news_section_meta_nonce' );
+	wp_nonce_field( 'sge_news_meta_save', 'sge_news_meta_nonce' );
 
-	$subtitle = get_post_meta( $post->ID, '_sgescort_news_section_subtitle', true );
-	$title = get_post_meta( $post->ID, '_sgescort_news_section_title', true );
+	$subtitle = get_post_meta( $post->ID, '_sge_news_subtitle', true );
+	$title = get_post_meta( $post->ID, '_sge_news_title', true );
 	?>
 	<p>
-		<label for="sgescort_news_section_subtitle"><?php esc_html_e( 'News Subtitle', 'sgescort-basic' ); ?></label><br>
-		<input type="text" id="sgescort_news_section_subtitle" name="sgescort_news_section_subtitle" class="widefat" value="<?php echo esc_attr( $subtitle ); ?>" placeholder="News">
+		<label for="sge_news_subtitle"><?php esc_html_e( 'News Subtitle', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sge_news_subtitle" name="sge_news_subtitle" class="widefat" value="<?php echo esc_attr( $subtitle ); ?>" placeholder="News">
 	</p>
 	<p>
-		<label for="sgescort_news_section_title"><?php esc_html_e( 'News Title', 'sgescort-basic' ); ?></label><br>
-		<input type="text" id="sgescort_news_section_title" name="sgescort_news_section_title" class="widefat" value="<?php echo esc_attr( $title ); ?>" placeholder="Latest News & Updates">
+		<label for="sge_news_title"><?php esc_html_e( 'News Title', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sge_news_title" name="sge_news_title" class="widefat" value="<?php echo esc_attr( $title ); ?>" placeholder="Latest News & Updates">
 	</p>
 	<?php
 }
@@ -837,7 +834,7 @@ function sgescort_basic_news_section_meta_box_html( $post ) {
  * @param WP_Post $post Current post.
  */
 function sgescort_basic_counter_section_meta_box_html( $post ) {
-	wp_nonce_field( 'sgescort_counter_section_meta_save', 'sgescort_counter_section_meta_nonce' );
+	wp_nonce_field( 'sge_counter_meta_save', 'sge_counter_meta_nonce' );
 
 	$counter1_value = get_post_meta( $post->ID, '_sgescort_counter1_value', true );
 	$counter1_label = get_post_meta( $post->ID, '_sgescort_counter1_label', true );
@@ -889,7 +886,7 @@ function sgescort_basic_counter_section_meta_box_html( $post ) {
  * @param WP_Post $post Current post.
  */
 function sgescort_basic_banner_section_meta_box_html( $post ) {
-	wp_nonce_field( 'sgescort_banner_section_meta_save', 'sgescort_banner_section_meta_nonce' );
+	wp_nonce_field( 'sge_banner_meta_save', 'sge_banner_meta_nonce' );
 
 	$title = get_post_meta( $post->ID, '_sgescort_banner_title', true );
 	$button1_text = get_post_meta( $post->ID, '_sgescort_banner_button1_text', true );
@@ -926,7 +923,7 @@ function sgescort_basic_banner_section_meta_box_html( $post ) {
  * @param WP_Post $post Current post.
  */
 function sgescort_basic_testimonials_section_meta_box_html( $post ) {
-	wp_nonce_field( 'sgescort_testimonials_section_meta_save', 'sgescort_testimonials_section_meta_nonce' );
+	wp_nonce_field( 'sge_testimonials_meta_save', 'sge_testimonials_meta_nonce' );
 
 	$subtitle = get_post_meta( $post->ID, '_sgescort_testimonials_subtitle', true );
 	$title = get_post_meta( $post->ID, '_sgescort_testimonials_title', true );
@@ -1092,7 +1089,7 @@ add_action( 'save_post_sgescort_about', 'sgescort_basic_save_about_meta' );
  * @param int $post_id Post ID.
  */
 function sgescort_basic_save_services_section_meta( $post_id ) {
-	if ( ! isset( $_POST['sgescort_services_section_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sgescort_services_section_meta_nonce'] ) ), 'sgescort_services_section_meta_save' ) ) {
+	if ( ! isset( $_POST['sge_services_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sge_services_meta_nonce'] ) ), 'sge_services_meta_save' ) ) {
 		return;
 	}
 
@@ -1100,15 +1097,15 @@ function sgescort_basic_save_services_section_meta( $post_id ) {
 		return;
 	}
 
-	if ( isset( $_POST['post_type'] ) && 'sgescort_services_section' === $_POST['post_type'] ) {
+	if ( isset( $_POST['post_type'] ) && 'sge_services' === $_POST['post_type'] ) {
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return;
 		}
 	}
 
 	$fields = array(
-		'sgescort_services_section_subtitle',
-		'sgescort_services_section_title',
+		'sge_services_subtitle',
+		'sge_services_title',
 	);
 
 	foreach ( $fields as $field ) {
@@ -1118,7 +1115,7 @@ function sgescort_basic_save_services_section_meta( $post_id ) {
 		}
 	}
 }
-add_action( 'save_post_sgescort_services_section', 'sgescort_basic_save_services_section_meta' );
+add_action( 'save_post_sge_services', 'sgescort_basic_save_services_section_meta' );
 
 /**
  * Save team section meta.
@@ -1126,7 +1123,7 @@ add_action( 'save_post_sgescort_services_section', 'sgescort_basic_save_services
  * @param int $post_id Post ID.
  */
 function sgescort_basic_save_team_section_meta( $post_id ) {
-	if ( ! isset( $_POST['sgescort_team_section_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sgescort_team_section_meta_nonce'] ) ), 'sgescort_team_section_meta_save' ) ) {
+	if ( ! isset( $_POST['sge_team_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sge_team_meta_nonce'] ) ), 'sge_team_meta_save' ) ) {
 		return;
 	}
 
@@ -1134,15 +1131,15 @@ function sgescort_basic_save_team_section_meta( $post_id ) {
 		return;
 	}
 
-	if ( isset( $_POST['post_type'] ) && 'sgescort_team_section' === $_POST['post_type'] ) {
+	if ( isset( $_POST['post_type'] ) && 'sge_team' === $_POST['post_type'] ) {
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return;
 		}
 	}
 
 	$fields = array(
-		'sgescort_team_section_subtitle',
-		'sgescort_team_section_title',
+		'sge_team_subtitle',
+		'sge_team_title',
 	);
 
 	foreach ( $fields as $field ) {
@@ -1152,7 +1149,7 @@ function sgescort_basic_save_team_section_meta( $post_id ) {
 		}
 	}
 }
-add_action( 'save_post_sgescort_team_section', 'sgescort_basic_save_team_section_meta' );
+add_action( 'save_post_sge_team', 'sgescort_basic_save_team_section_meta' );
 
 /**
  * Save portfolio section meta.
@@ -1160,7 +1157,7 @@ add_action( 'save_post_sgescort_team_section', 'sgescort_basic_save_team_section
  * @param int $post_id Post ID.
  */
 function sgescort_basic_save_portfolio_section_meta( $post_id ) {
-	if ( ! isset( $_POST['sgescort_portfolio_section_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sgescort_portfolio_section_meta_nonce'] ) ), 'sgescort_portfolio_section_meta_save' ) ) {
+	if ( ! isset( $_POST['sge_portfolio_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sge_portfolio_meta_nonce'] ) ), 'sge_portfolio_meta_save' ) ) {
 		return;
 	}
 
@@ -1168,15 +1165,15 @@ function sgescort_basic_save_portfolio_section_meta( $post_id ) {
 		return;
 	}
 
-	if ( isset( $_POST['post_type'] ) && 'sgescort_portfolio_section' === $_POST['post_type'] ) {
+	if ( isset( $_POST['post_type'] ) && 'sge_portfolio' === $_POST['post_type'] ) {
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return;
 		}
 	}
 
 	$fields = array(
-		'sgescort_portfolio_section_subtitle',
-		'sgescort_portfolio_section_title',
+		'sge_portfolio_subtitle',
+		'sge_portfolio_title',
 	);
 
 	foreach ( $fields as $field ) {
@@ -1186,7 +1183,7 @@ function sgescort_basic_save_portfolio_section_meta( $post_id ) {
 		}
 	}
 }
-add_action( 'save_post_sgescort_portfolio_section', 'sgescort_basic_save_portfolio_section_meta' );
+add_action( 'save_post_sge_portfolio', 'sgescort_basic_save_portfolio_section_meta' );
 
 /**
  * Save faq section meta.
@@ -1228,7 +1225,7 @@ add_action( 'save_post_sgescort_faq_section', 'sgescort_basic_save_faq_section_m
  * @param int $post_id Post ID.
  */
 function sgescort_basic_save_news_section_meta( $post_id ) {
-	if ( ! isset( $_POST['sgescort_news_section_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sgescort_news_section_meta_nonce'] ) ), 'sgescort_news_section_meta_save' ) ) {
+	if ( ! isset( $_POST['sge_news_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sge_news_meta_nonce'] ) ), 'sge_news_meta_save' ) ) {
 		return;
 	}
 
@@ -1236,15 +1233,15 @@ function sgescort_basic_save_news_section_meta( $post_id ) {
 		return;
 	}
 
-	if ( isset( $_POST['post_type'] ) && 'sgescort_news_section' === $_POST['post_type'] ) {
+	if ( isset( $_POST['post_type'] ) && 'sge_news' === $_POST['post_type'] ) {
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return;
 		}
 	}
 
 	$fields = array(
-		'sgescort_news_section_subtitle',
-		'sgescort_news_section_title',
+		'sge_news_subtitle',
+		'sge_news_title',
 	);
 
 	foreach ( $fields as $field ) {
@@ -1254,7 +1251,7 @@ function sgescort_basic_save_news_section_meta( $post_id ) {
 		}
 	}
 }
-add_action( 'save_post_sgescort_news_section', 'sgescort_basic_save_news_section_meta' );
+add_action( 'save_post_sge_news', 'sgescort_basic_save_news_section_meta' );
 
 /**
  * Save counter section meta.
@@ -1262,7 +1259,7 @@ add_action( 'save_post_sgescort_news_section', 'sgescort_basic_save_news_section
  * @param int $post_id Post ID.
  */
 function sgescort_basic_save_counter_section_meta( $post_id ) {
-	if ( ! isset( $_POST['sgescort_counter_section_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sgescort_counter_section_meta_nonce'] ) ), 'sgescort_counter_section_meta_save' ) ) {
+	if ( ! isset( $_POST['sge_counter_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sge_counter_meta_nonce'] ) ), 'sge_counter_meta_save' ) ) {
 		return;
 	}
 
@@ -1270,7 +1267,7 @@ function sgescort_basic_save_counter_section_meta( $post_id ) {
 		return;
 	}
 
-	if ( isset( $_POST['post_type'] ) && 'sgescort_counter_section' === $_POST['post_type'] ) {
+	if ( isset( $_POST['post_type'] ) && 'sge_counter' === $_POST['post_type'] ) {
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return;
 		}
@@ -1294,7 +1291,7 @@ function sgescort_basic_save_counter_section_meta( $post_id ) {
 		}
 	}
 }
-add_action( 'save_post_sgescort_counter_section', 'sgescort_basic_save_counter_section_meta' );
+add_action( 'save_post_sge_counter', 'sgescort_basic_save_counter_section_meta' );
 
 /**
  * Save banner section meta.
@@ -1302,7 +1299,7 @@ add_action( 'save_post_sgescort_counter_section', 'sgescort_basic_save_counter_s
  * @param int $post_id Post ID.
  */
 function sgescort_basic_save_banner_section_meta( $post_id ) {
-	if ( ! isset( $_POST['sgescort_banner_section_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sgescort_banner_section_meta_nonce'] ) ), 'sgescort_banner_section_meta_save' ) ) {
+	if ( ! isset( $_POST['sge_banner_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sge_banner_meta_nonce'] ) ), 'sge_banner_meta_save' ) ) {
 		return;
 	}
 
@@ -1310,7 +1307,7 @@ function sgescort_basic_save_banner_section_meta( $post_id ) {
 		return;
 	}
 
-	if ( isset( $_POST['post_type'] ) && 'sgescort_banner_section' === $_POST['post_type'] ) {
+	if ( isset( $_POST['post_type'] ) && 'sge_banner' === $_POST['post_type'] ) {
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return;
 		}
@@ -1331,7 +1328,7 @@ function sgescort_basic_save_banner_section_meta( $post_id ) {
 		}
 	}
 }
-add_action( 'save_post_sgescort_banner_section', 'sgescort_basic_save_banner_section_meta' );
+add_action( 'save_post_sge_banner', 'sgescort_basic_save_banner_section_meta' );
 
 /**
  * Save testimonials section meta.
@@ -1339,7 +1336,7 @@ add_action( 'save_post_sgescort_banner_section', 'sgescort_basic_save_banner_sec
  * @param int $post_id Post ID.
  */
 function sgescort_basic_save_testimonials_section_meta( $post_id ) {
-	if ( ! isset( $_POST['sgescort_testimonials_section_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sgescort_testimonials_section_meta_nonce'] ) ), 'sgescort_testimonials_section_meta_save' ) ) {
+	if ( ! isset( $_POST['sge_testimonials_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sge_testimonials_meta_nonce'] ) ), 'sge_testimonials_meta_save' ) ) {
 		return;
 	}
 
@@ -1347,7 +1344,7 @@ function sgescort_basic_save_testimonials_section_meta( $post_id ) {
 		return;
 	}
 
-	if ( isset( $_POST['post_type'] ) && 'sgescort_testimonials_section' === $_POST['post_type'] ) {
+	if ( isset( $_POST['post_type'] ) && 'sge_testimonials' === $_POST['post_type'] ) {
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return;
 		}
@@ -1369,7 +1366,7 @@ function sgescort_basic_save_testimonials_section_meta( $post_id ) {
 		}
 	}
 }
-add_action( 'save_post_sgescort_testimonials_section', 'sgescort_basic_save_testimonials_section_meta' );
+add_action( 'save_post_sge_testimonials', 'sgescort_basic_save_testimonials_section_meta' );
 
 /**
  * Set post thumbnail (featured image) from a file in html/images/.
@@ -1798,26 +1795,26 @@ function sgescort_basic_section_manager_page() {
 				'services' => array(
 					'title' => __( 'Services Section', 'sgescort-basic' ),
 					'description' => __( 'List of services offered', 'sgescort-basic' ),
-					'cpt' => 'sgescort_services_section',
+					'cpt' => 'sge_services',
 					'icon' => 'dashicons-admin-tools',
 					'items_cpt' => 'sgescort_service'
 				),
 				'portfolio' => array(
 					'title' => __( 'Portfolio Section (Gallery)', 'sgescort-basic' ),
 					'description' => __( 'Gallery of images', 'sgescort-basic' ),
-					'cpt' => 'sgescort_portfolio_section',
+					'cpt' => 'sge_portfolio',
 					'icon' => 'dashicons-images-alt'
 				),
 				'banner' => array(
 					'title' => __( 'Banner Section', 'sgescort-basic' ),
 					'description' => __( 'Call-to-action banner', 'sgescort-basic' ),
-					'cpt' => 'sgescort_banner_section',
+					'cpt' => 'sge_banner',
 					'icon' => 'dashicons-megaphone'
 				),
 				'team' => array(
 					'title' => __( 'Team Section (Models)', 'sgescort-basic' ),
 					'description' => __( 'Display your models/escorts', 'sgescort-basic' ),
-					'cpt' => 'sgescort_team_section',
+					'cpt' => 'sge_team',
 					'icon' => 'dashicons-groups',
 					'items_cpt' => 'sgescort_model'
 				),
@@ -1831,19 +1828,19 @@ function sgescort_basic_section_manager_page() {
 				'news' => array(
 					'title' => __( 'News Section', 'sgescort-basic' ),
 					'description' => __( 'Latest news and updates', 'sgescort-basic' ),
-					'cpt' => 'sgescort_news_section',
+					'cpt' => 'sge_news',
 					'icon' => 'dashicons-admin-site'
 				),
 				'counter' => array(
 					'title' => __( 'Counter Section', 'sgescort-basic' ),
 					'description' => __( 'Statistics display', 'sgescort-basic' ),
-					'cpt' => 'sgescort_counter_section',
+					'cpt' => 'sge_counter',
 					'icon' => 'dashicons-chart-bar'
 				),
 				'testimonials' => array(
 					'title' => __( 'Testimonials Section', 'sgescort-basic' ),
 					'description' => __( 'Client reviews', 'sgescort-basic' ),
-					'cpt' => 'sgescort_testimonials_section',
+					'cpt' => 'sge_testimonials',
 					'icon' => 'dashicons-testimonial'
 				)
 			);
