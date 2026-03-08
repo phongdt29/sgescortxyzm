@@ -124,8 +124,35 @@ if ( have_posts() ) {
 		<div class="row">
 			<div class="col-12">
 				<div class="section-headline white-headline text-center">
-					<span class="top-head">Services</span>
-					<h3>Our Singapore Escort Hub Services</h3>
+					<?php
+					$services_section_query = new WP_Query(
+						array(
+							'post_type'      => 'sgescort_services_section',
+							'posts_per_page' => 1,
+							'orderby'        => 'menu_order',
+							'order'          => 'ASC',
+						)
+					);
+
+					if ( $services_section_query->have_posts() ) :
+						while ( $services_section_query->have_posts() ) :
+							$services_section_query->the_post();
+							$services_section_id = get_the_ID();
+							$subtitle = get_post_meta( $services_section_id, '_sgescort_services_section_subtitle', true );
+							$title = get_post_meta( $services_section_id, '_sgescort_services_section_title', true );
+							?>
+							<span class="top-head"><?php echo esc_html( $subtitle ?: 'Services' ); ?></span>
+							<h3><?php echo esc_html( $title ?: 'Our Singapore Escort Hub Services' ); ?></h3>
+							<?php
+						endwhile;
+						wp_reset_postdata();
+					else :
+						?>
+						<span class="top-head">Services</span>
+						<h3>Our Singapore Escort Hub Services</h3>
+						<?php
+					endif;
+					?>
 				</div>
 			</div>
 		</div>

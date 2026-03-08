@@ -299,6 +299,22 @@ function sgescort_basic_register_cpts() {
 			'show_in_rest' => true,
 		)
 	);
+
+	// Services Section.
+	register_post_type(
+		'sgescort_services_section',
+		array(
+			'labels'       => array(
+				'name'          => __( 'Services Sections', 'sgescort-basic' ),
+				'singular_name' => __( 'Services Section', 'sgescort-basic' ),
+			),
+			'public'       => true,
+			'show_in_menu' => true,
+			'supports'     => array( 'title', 'page-attributes' ),
+			'has_archive'  => false,
+			'show_in_rest' => true,
+		)
+	);
 }
 add_action( 'init', 'sgescort_basic_register_cpts' );
 
@@ -346,6 +362,21 @@ function sgescort_basic_about_meta_boxes() {
 	);
 }
 add_action( 'add_meta_boxes', 'sgescort_basic_about_meta_boxes' );
+
+/**
+ * Meta box for Services Section.
+ */
+function sgescort_basic_services_section_meta_boxes() {
+	add_meta_box(
+		'sgescort_services_section_meta',
+		__( 'Services Section Details', 'sgescort-basic' ),
+		'sgescort_basic_services_section_meta_box_html',
+		'sgescort_services_section',
+		'normal',
+		'default'
+	);
+}
+add_action( 'add_meta_boxes', 'sgescort_basic_services_section_meta_boxes' );
 
 /**
  * Meta box HTML for model CPT.
@@ -444,6 +475,28 @@ function sgescort_basic_about_meta_box_html( $post ) {
 	<p>
 		<label for="sgescort_about_button2_url"><?php esc_html_e( 'Button 2 URL', 'sgescort-basic' ); ?></label><br>
 		<input type="url" id="sgescort_about_button2_url" name="sgescort_about_button2_url" class="widefat" value="<?php echo esc_attr( $button2_url ); ?>" placeholder="https://t.me/+qQYECOoAHgZhNzU1">
+	</p>
+	<?php
+}
+
+/**
+ * Meta box HTML for services section CPT.
+ *
+ * @param WP_Post $post Current post.
+ */
+function sgescort_basic_services_section_meta_box_html( $post ) {
+	wp_nonce_field( 'sgescort_services_section_meta_save', 'sgescort_services_section_meta_nonce' );
+
+	$subtitle = get_post_meta( $post->ID, '_sgescort_services_section_subtitle', true );
+	$title = get_post_meta( $post->ID, '_sgescort_services_section_title', true );
+	?>
+	<p>
+		<label for="sgescort_services_section_subtitle"><?php esc_html_e( 'Services Subtitle', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_services_section_subtitle" name="sgescort_services_section_subtitle" class="widefat" value="<?php echo esc_attr( $subtitle ); ?>" placeholder="Services">
+	</p>
+	<p>
+		<label for="sgescort_services_section_title"><?php esc_html_e( 'Services Title', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_services_section_title" name="sgescort_services_section_title" class="widefat" value="<?php echo esc_attr( $title ); ?>" placeholder="Our Singapore Escort Hub Services">
 	</p>
 	<?php
 }
@@ -570,6 +623,40 @@ function sgescort_basic_save_about_meta( $post_id ) {
 	}
 }
 add_action( 'save_post_sgescort_about', 'sgescort_basic_save_about_meta' );
+
+/**
+ * Save services section meta.
+ *
+ * @param int $post_id Post ID.
+ */
+function sgescort_basic_save_services_section_meta( $post_id ) {
+	if ( ! isset( $_POST['sgescort_services_section_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sgescort_services_section_meta_nonce'] ) ), 'sgescort_services_section_meta_save' ) ) {
+		return;
+	}
+
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+
+	if ( isset( $_POST['post_type'] ) && 'sgescort_services_section' === $_POST['post_type'] ) {
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+	}
+
+	$fields = array(
+		'sgescort_services_section_subtitle',
+		'sgescort_services_section_title',
+	);
+
+	foreach ( $fields as $field ) {
+		if ( isset( $_POST[ $field ] ) ) {
+			$value = sanitize_text_field( wp_unslash( $_POST[ $field ] ) );
+			update_post_meta( $post_id, '_' . $field, $value );
+		}
+	}
+}
+add_action( 'save_post_sgescort_services_section', 'sgescort_basic_save_services_section_meta' );
 
 /**
  * Set post thumbnail (featured image) from a file in html/images/.
