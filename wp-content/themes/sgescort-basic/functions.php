@@ -310,7 +310,119 @@ function sgescort_basic_register_cpts() {
 			),
 			'public'       => true,
 			'show_in_menu' => true,
-			'supports'     => array( 'title', 'page-attributes' ),
+			'supports'     => array( 'title', 'custom-fields', 'page-attributes' ),
+			'has_archive'  => false,
+			'show_in_rest' => true,
+		)
+	);
+
+	// Team Section.
+	register_post_type(
+		'sgescort_team_section',
+		array(
+			'labels'       => array(
+				'name'          => __( 'Team Sections', 'sgescort-basic' ),
+				'singular_name' => __( 'Team Section', 'sgescort-basic' ),
+			),
+			'public'       => true,
+			'show_in_menu' => true,
+			'supports'     => array( 'title', 'custom-fields', 'page-attributes' ),
+			'has_archive'  => false,
+			'show_in_rest' => true,
+		)
+	);
+
+	// Portfolio Section.
+	register_post_type(
+		'sgescort_portfolio_section',
+		array(
+			'labels'       => array(
+				'name'          => __( 'Portfolio Sections', 'sgescort-basic' ),
+				'singular_name' => __( 'Portfolio Section', 'sgescort-basic' ),
+			),
+			'public'       => true,
+			'show_in_menu' => true,
+			'supports'     => array( 'title', 'custom-fields', 'page-attributes' ),
+			'has_archive'  => false,
+			'show_in_rest' => true,
+		)
+	);
+
+	// FAQ Section.
+	register_post_type(
+		'sgescort_faq_section',
+		array(
+			'labels'       => array(
+				'name'          => __( 'FAQ Sections', 'sgescort-basic' ),
+				'singular_name' => __( 'FAQ Section', 'sgescort-basic' ),
+			),
+			'public'       => true,
+			'show_in_menu' => true,
+			'supports'     => array( 'title', 'custom-fields', 'page-attributes' ),
+			'has_archive'  => false,
+			'show_in_rest' => true,
+		)
+	);
+
+	// News Section.
+	register_post_type(
+		'sgescort_news_section',
+		array(
+			'labels'       => array(
+				'name'          => __( 'News Sections', 'sgescort-basic' ),
+				'singular_name' => __( 'News Section', 'sgescort-basic' ),
+			),
+			'public'       => true,
+			'show_in_menu' => true,
+			'supports'     => array( 'title', 'custom-fields', 'page-attributes' ),
+			'has_archive'  => false,
+			'show_in_rest' => true,
+		)
+	);
+
+	// Counter Section.
+	register_post_type(
+		'sgescort_counter_section',
+		array(
+			'labels'       => array(
+				'name'          => __( 'Counter Sections', 'sgescort-basic' ),
+				'singular_name' => __( 'Counter Section', 'sgescort-basic' ),
+			),
+			'public'       => true,
+			'show_in_menu' => true,
+			'supports'     => array( 'title', 'custom-fields', 'page-attributes' ),
+			'has_archive'  => false,
+			'show_in_rest' => true,
+		)
+	);
+
+	// Banner Section.
+	register_post_type(
+		'sgescort_banner_section',
+		array(
+			'labels'       => array(
+				'name'          => __( 'Banner Sections', 'sgescort-basic' ),
+				'singular_name' => __( 'Banner Section', 'sgescort-basic' ),
+			),
+			'public'       => true,
+			'show_in_menu' => true,
+			'supports'     => array( 'title', 'custom-fields', 'page-attributes' ),
+			'has_archive'  => false,
+			'show_in_rest' => true,
+		)
+	);
+
+	// Testimonials Section.
+	register_post_type(
+		'sgescort_testimonials_section',
+		array(
+			'labels'       => array(
+				'name'          => __( 'Testimonials Sections', 'sgescort-basic' ),
+				'singular_name' => __( 'Testimonials Section', 'sgescort-basic' ),
+			),
+			'public'       => true,
+			'show_in_menu' => true,
+			'supports'     => array( 'title',	'custom-fields', 'page-attributes' ),
 			'has_archive'  => false,
 			'show_in_rest' => true,
 		)
@@ -377,6 +489,105 @@ function sgescort_basic_services_section_meta_boxes() {
 	);
 }
 add_action( 'add_meta_boxes', 'sgescort_basic_services_section_meta_boxes' );
+
+/**
+ * Meta box for Team Section.
+ */
+function sgescort_basic_team_section_meta_boxes() {
+	add_meta_box(
+		'sgescort_team_section_meta',
+		__( 'Team Section Details', 'sgescort-basic' ),
+		'sgescort_basic_team_section_meta_box_html',
+		'sgescort_team_section',
+		'normal',
+		'default'
+	);
+}
+add_action( 'add_meta_boxes', 'sgescort_basic_team_section_meta_boxes' );
+
+/**
+ * Meta box for Portfolio Section.
+ */
+function sgescort_basic_portfolio_section_meta_boxes() {
+	add_meta_box(
+		'sgescort_portfolio_section_meta',
+		__( 'Portfolio Section Details', 'sgescort-basic' ),
+		'sgescort_basic_portfolio_section_meta_box_html',
+		'sgescort_portfolio_section',
+		'normal',
+		'default'
+	);
+}
+add_action( 'add_meta_boxes', 'sgescort_basic_portfolio_section_meta_boxes' );
+
+/**
+ * Meta box for FAQ Section.
+ */
+function sgescort_basic_faq_section_meta_boxes() {
+	add_meta_box(
+		'sgescort_faq_section_meta',
+		__( 'FAQ Section Details', 'sgescort-basic' ),
+		'sgescort_basic_faq_section_meta_box_html',
+		'sgescort_faq_section',
+		'normal',
+		'default'
+	);
+}
+add_action( 'add_meta_boxes', 'sgescort_basic_faq_section_meta_boxes' );
+
+/**
+ * Meta box for News Section.
+ */
+function sgescort_basic_news_section_meta_boxes() {
+	add_meta_box(
+		'sgescort_news_section_meta',
+		__( 'News Section Details', 'sgescort-basic' ),
+		'sgescort_basic_news_section_meta_box_html',
+		'sgescort_news_section',
+		'normal',
+		'default'
+	);
+}
+add_action( 'add_meta_boxes', 'sgescort_basic_news_section_meta_boxes' );
+
+/**
+ * Meta box for Counter Section.
+ */
+function sgescort_basic_counter_section_meta_boxes() {
+	add_meta_box(
+		'sgescort_counter_section_meta',
+		__( 'Counter Section Details', 'sgescort-basic' ),
+		'sgescort_basic_counter_section_meta_box_html',
+		'sgescort_counter_section',
+		'normal',
+		'default'
+	);
+}
+add_action( 'add_meta_boxes', 'sgescort_basic_counter_section_meta_boxes' );
+
+function sgescort_basic_banner_section_meta_boxes() {
+	add_meta_box(
+		'sgescort_banner_section_meta',
+		__( 'Banner Section Details', 'sgescort-basic' ),
+		'sgescort_basic_banner_section_meta_box_html',
+		'sgescort_banner_section',
+		'normal',
+		'default'
+	);
+}
+add_action( 'add_meta_boxes', 'sgescort_basic_banner_section_meta_boxes' );
+
+function sgescort_basic_testimonials_section_meta_boxes() {
+	add_meta_box(
+		'sgescort_testimonials_section_meta',
+		__( 'Testimonials Section Details', 'sgescort-basic' ),
+		'sgescort_basic_testimonials_section_meta_box_html',
+		'sgescort_testimonials_section',
+		'normal',
+		'default'
+	);
+}
+add_action( 'add_meta_boxes', 'sgescort_basic_testimonials_section_meta_boxes' );
 
 /**
  * Meta box HTML for model CPT.
@@ -451,6 +662,7 @@ function sgescort_basic_about_meta_box_html( $post ) {
 	wp_nonce_field( 'sgescort_about_meta_save', 'sgescort_about_meta_nonce' );
 
 	$subtitle = get_post_meta( $post->ID, '_sgescort_about_subtitle', true );
+	$title = get_post_meta( $post->ID, '_sgescort_about_title', true );
 	$button1_text = get_post_meta( $post->ID, '_sgescort_about_button1_text', true );
 	$button1_url = get_post_meta( $post->ID, '_sgescort_about_button1_url', true );
 	$button2_text = get_post_meta( $post->ID, '_sgescort_about_button2_text', true );
@@ -459,6 +671,10 @@ function sgescort_basic_about_meta_box_html( $post ) {
 	<p>
 		<label for="sgescort_about_subtitle"><?php esc_html_e( 'About Subtitle', 'sgescort-basic' ); ?></label><br>
 		<input type="text" id="sgescort_about_subtitle" name="sgescort_about_subtitle" class="widefat" value="<?php echo esc_attr( $subtitle ); ?>" placeholder="About Us">
+	</p>
+	<p>
+		<label for="sgescort_about_title"><?php esc_html_e( 'About Title', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_about_title" name="sgescort_about_title" class="widefat" value="<?php echo esc_attr( $title ); ?>" placeholder="About Singapore Escort Hub">
 	</p>
 	<p>
 		<label for="sgescort_about_button1_text"><?php esc_html_e( 'Button 1 Text', 'sgescort-basic' ); ?></label><br>
@@ -497,6 +713,225 @@ function sgescort_basic_services_section_meta_box_html( $post ) {
 	<p>
 		<label for="sgescort_services_section_title"><?php esc_html_e( 'Services Title', 'sgescort-basic' ); ?></label><br>
 		<input type="text" id="sgescort_services_section_title" name="sgescort_services_section_title" class="widefat" value="<?php echo esc_attr( $title ); ?>" placeholder="Our Singapore Escort Hub Services">
+	</p>
+	<?php
+}
+
+/**
+ * Meta box HTML for team section CPT.
+ *
+ * @param WP_Post $post Current post.
+ */
+function sgescort_basic_team_section_meta_box_html( $post ) {
+	wp_nonce_field( 'sgescort_team_section_meta_save', 'sgescort_team_section_meta_nonce' );
+
+	$subtitle = get_post_meta( $post->ID, '_sgescort_team_section_subtitle', true );
+	$title = get_post_meta( $post->ID, '_sgescort_team_section_title', true );
+	?>
+	<p>
+		<label for="sgescort_team_section_subtitle"><?php esc_html_e( 'Team Subtitle', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_team_section_subtitle" name="sgescort_team_section_subtitle" class="widefat" value="<?php echo esc_attr( $subtitle ); ?>" placeholder="TOP Models">
+	</p>
+	<p>
+		<label for="sgescort_team_section_title"><?php esc_html_e( 'Team Title', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_team_section_title" name="sgescort_team_section_title" class="widefat" value="<?php echo esc_attr( $title ); ?>" placeholder="Meet Our Models">
+	</p>
+	<?php
+}
+
+/**
+ * Meta box HTML for portfolio section CPT.
+ *
+ * @param WP_Post $post Current post.
+ */
+function sgescort_basic_portfolio_section_meta_box_html( $post ) {
+	wp_nonce_field( 'sgescort_portfolio_section_meta_save', 'sgescort_portfolio_section_meta_nonce' );
+
+	$subtitle = get_post_meta( $post->ID, '_sgescort_portfolio_section_subtitle', true );
+	$title = get_post_meta( $post->ID, '_sgescort_portfolio_section_title', true );
+	?>
+	<p>
+		<label for="sgescort_portfolio_section_subtitle"><?php esc_html_e( 'Portfolio Subtitle', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_portfolio_section_subtitle" name="sgescort_portfolio_section_subtitle" class="widefat" value="<?php echo esc_attr( $subtitle ); ?>" placeholder="Gallery">
+	</p>
+	<p>
+		<label for="sgescort_portfolio_section_title"><?php esc_html_e( 'Portfolio Title', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_portfolio_section_title" name="sgescort_portfolio_section_title" class="widefat" value="<?php echo esc_attr( $title ); ?>" placeholder="SG SCORT HUB PORTFOLIO">
+	</p>
+	<?php
+}
+
+/**
+ * Meta box HTML for faq section CPT.
+ *
+ * @param WP_Post $post Current post.
+ */
+function sgescort_basic_faq_section_meta_box_html( $post ) {
+	wp_nonce_field( 'sgescort_faq_section_meta_save', 'sgescort_faq_section_meta_nonce' );
+
+	$subtitle = get_post_meta( $post->ID, '_sgescort_faq_section_subtitle', true );
+	$title = get_post_meta( $post->ID, '_sgescort_faq_section_title', true );
+	?>
+	<p>
+		<label for="sgescort_faq_section_subtitle"><?php esc_html_e( 'FAQ Subtitle', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_faq_section_subtitle" name="sgescort_faq_section_subtitle" class="widefat" value="<?php echo esc_attr( $subtitle ); ?>" placeholder="FAQ">
+	</p>
+	<p>
+		<label for="sgescort_faq_section_title"><?php esc_html_e( 'FAQ Title', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_faq_section_title" name="sgescort_faq_section_title" class="widefat" value="<?php echo esc_attr( $title ); ?>" placeholder="Frequently Asked Questions">
+	</p>
+	<?php
+}
+
+/**
+ * Meta box HTML for news section CPT.
+ *
+ * @param WP_Post $post Current post.
+ */
+function sgescort_basic_news_section_meta_box_html( $post ) {
+	wp_nonce_field( 'sgescort_news_section_meta_save', 'sgescort_news_section_meta_nonce' );
+
+	$subtitle = get_post_meta( $post->ID, '_sgescort_news_section_subtitle', true );
+	$title = get_post_meta( $post->ID, '_sgescort_news_section_title', true );
+	?>
+	<p>
+		<label for="sgescort_news_section_subtitle"><?php esc_html_e( 'News Subtitle', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_news_section_subtitle" name="sgescort_news_section_subtitle" class="widefat" value="<?php echo esc_attr( $subtitle ); ?>" placeholder="News">
+	</p>
+	<p>
+		<label for="sgescort_news_section_title"><?php esc_html_e( 'News Title', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_news_section_title" name="sgescort_news_section_title" class="widefat" value="<?php echo esc_attr( $title ); ?>" placeholder="Latest News & Updates">
+	</p>
+	<?php
+}
+
+/**
+ * Meta box HTML for counter section CPT.
+ *
+ * @param WP_Post $post Current post.
+ */
+function sgescort_basic_counter_section_meta_box_html( $post ) {
+	wp_nonce_field( 'sgescort_counter_section_meta_save', 'sgescort_counter_section_meta_nonce' );
+
+	$counter1_value = get_post_meta( $post->ID, '_sgescort_counter1_value', true );
+	$counter1_label = get_post_meta( $post->ID, '_sgescort_counter1_label', true );
+	$counter2_value = get_post_meta( $post->ID, '_sgescort_counter2_value', true );
+	$counter2_label = get_post_meta( $post->ID, '_sgescort_counter2_label', true );
+	$counter3_value = get_post_meta( $post->ID, '_sgescort_counter3_value', true );
+	$counter3_label = get_post_meta( $post->ID, '_sgescort_counter3_label', true );
+	$counter4_value = get_post_meta( $post->ID, '_sgescort_counter4_value', true );
+	$counter4_label = get_post_meta( $post->ID, '_sgescort_counter4_label', true );
+	?>
+	<p>
+		<label for="sgescort_counter1_value"><?php esc_html_e( 'Counter 1 Value', 'sgescort-basic' ); ?></label><br>
+		<input type="number" id="sgescort_counter1_value" name="sgescort_counter1_value" class="widefat" value="<?php echo esc_attr( $counter1_value ?: '100' ); ?>" placeholder="100">
+	</p>
+	<p>
+		<label for="sgescort_counter1_label"><?php esc_html_e( 'Counter 1 Label', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_counter1_label" name="sgescort_counter1_label" class="widefat" value="<?php echo esc_attr( $counter1_label ?: 'Popular Models' ); ?>" placeholder="Popular Models">
+	</p>
+	<p>
+		<label for="sgescort_counter2_value"><?php esc_html_e( 'Counter 2 Value', 'sgescort-basic' ); ?></label><br>
+		<input type="number" id="sgescort_counter2_value" name="sgescort_counter2_value" class="widefat" value="<?php echo esc_attr( $counter2_value ?: '200' ); ?>" placeholder="200">
+	</p>
+	<p>
+		<label for="sgescort_counter2_label"><?php esc_html_e( 'Counter 2 Label', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_counter2_label" name="sgescort_counter2_label" class="widefat" value="<?php echo esc_attr( $counter2_label ?: 'Total Models' ); ?>" placeholder="Total Models">
+	</p>
+	<p>
+		<label for="sgescort_counter3_value"><?php esc_html_e( 'Counter 3 Value', 'sgescort-basic' ); ?></label><br>
+		<input type="number" id="sgescort_counter3_value" name="sgescort_counter3_value" class="widefat" value="<?php echo esc_attr( $counter3_value ?: '5' ); ?>" placeholder="5">
+	</p>
+	<p>
+		<label for="sgescort_counter3_label"><?php esc_html_e( 'Counter 3 Label', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_counter3_label" name="sgescort_counter3_label" class="widefat" value="<?php echo esc_attr( $counter3_label ?: 'Areas' ); ?>" placeholder="Areas">
+	</p>
+	<p>
+		<label for="sgescort_counter4_value"><?php esc_html_e( 'Counter 4 Value', 'sgescort-basic' ); ?></label><br>
+		<input type="number" id="sgescort_counter4_value" name="sgescort_counter4_value" class="widefat" value="<?php echo esc_attr( $counter4_value ?: '15000' ); ?>" placeholder="15000">
+	</p>
+	<p>
+		<label for="sgescort_counter4_label"><?php esc_html_e( 'Counter 4 Label', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_counter4_label" name="sgescort_counter4_label" class="widefat" value="<?php echo esc_attr( $counter4_label ?: 'Followers' ); ?>" placeholder="Followers">
+	</p>
+	<?php
+}
+
+/**
+ * Meta box HTML for banner section CPT.
+ *
+ * @param WP_Post $post Current post.
+ */
+function sgescort_basic_banner_section_meta_box_html( $post ) {
+	wp_nonce_field( 'sgescort_banner_section_meta_save', 'sgescort_banner_section_meta_nonce' );
+
+	$title = get_post_meta( $post->ID, '_sgescort_banner_title', true );
+	$button1_text = get_post_meta( $post->ID, '_sgescort_banner_button1_text', true );
+	$button1_url = get_post_meta( $post->ID, '_sgescort_banner_button1_url', true );
+	$button2_text = get_post_meta( $post->ID, '_sgescort_banner_button2_text', true );
+	$button2_url = get_post_meta( $post->ID, '_sgescort_banner_button2_url', true );
+	?>
+	<p>
+		<label for="sgescort_banner_title"><?php esc_html_e( 'Banner Title', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_banner_title" name="sgescort_banner_title" class="widefat" value="<?php echo esc_attr( $title ?: 'Elevate Your Experience, Every Moment.' ); ?>" placeholder="Elevate Your Experience, Every Moment.">
+	</p>
+	<p>
+		<label for="sgescort_banner_button1_text"><?php esc_html_e( 'Button 1 Text', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_banner_button1_text" name="sgescort_banner_button1_text" class="widefat" value="<?php echo esc_attr( $button1_text ?: 'Visit SGESCORTHUB.COM' ); ?>" placeholder="Visit SGESCORTHUB.COM">
+	</p>
+	<p>
+		<label for="sgescort_banner_button1_url"><?php esc_html_e( 'Button 1 URL', 'sgescort-basic' ); ?></label><br>
+		<input type="url" id="sgescort_banner_button1_url" name="sgescort_banner_button1_url" class="widefat" value="<?php echo esc_attr( $button1_url ?: 'https://sgescorthub.com/' ); ?>" placeholder="https://sgescorthub.com/">
+	</p>
+	<p>
+		<label for="sgescort_banner_button2_text"><?php esc_html_e( 'Button 2 Text', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_banner_button2_text" name="sgescort_banner_button2_text" class="widefat" value="<?php echo esc_attr( $button2_text ?: 'Visit 新加坡小姐网 Telegram' ); ?>" placeholder="Visit 新加坡小姐网 Telegram">
+	</p>
+	<p>
+		<label for="sgescort_banner_button2_url"><?php esc_html_e( 'Button 2 URL', 'sgescort-basic' ); ?></label><br>
+		<input type="url" id="sgescort_banner_button2_url" name="sgescort_banner_button2_url" class="widefat" value="<?php echo esc_attr( $button2_url ?: 'https://t.me/+qQYECOoAHgZhNzU1' ); ?>" placeholder="https://t.me/+qQYECOoAHgZhNzU1">
+	</p>
+	<?php
+}
+
+/**
+ * Meta box HTML for testimonials section CPT.
+ *
+ * @param WP_Post $post Current post.
+ */
+function sgescort_basic_testimonials_section_meta_box_html( $post ) {
+	wp_nonce_field( 'sgescort_testimonials_section_meta_save', 'sgescort_testimonials_section_meta_nonce' );
+
+	$subtitle = get_post_meta( $post->ID, '_sgescort_testimonials_subtitle', true );
+	$title = get_post_meta( $post->ID, '_sgescort_testimonials_title', true );
+	$description = get_post_meta( $post->ID, '_sgescort_testimonials_description', true );
+	$testimonial_text = get_post_meta( $post->ID, '_sgescort_testimonial_text', true );
+	$client_name = get_post_meta( $post->ID, '_sgescort_client_name', true );
+	$client_role = get_post_meta( $post->ID, '_sgescort_client_role', true );
+	?>
+	<p>
+		<label for="sgescort_testimonials_subtitle"><?php esc_html_e( 'Section Subtitle', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_testimonials_subtitle" name="sgescort_testimonials_subtitle" class="widefat" value="<?php echo esc_attr( $subtitle ?: 'Testimonials' ); ?>" placeholder="Testimonials">
+	</p>
+	<p>
+		<label for="sgescort_testimonials_title"><?php esc_html_e( 'Section Title', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_testimonials_title" name="sgescort_testimonials_title" class="widefat" value="<?php echo esc_attr( $title ?: 'What Our Clients Say' ); ?>" placeholder="What Our Clients Say">
+	</p>
+	<p>
+		<label for="sgescort_testimonials_description"><?php esc_html_e( 'Description', 'sgescort-basic' ); ?></label><br>
+		<textarea id="sgescort_testimonials_description" name="sgescort_testimonials_description" class="widefat" rows="4" placeholder="An Escort Agency is a professional service provider..."><?php echo esc_textarea( $description ?: 'An Escort Agency is a professional service provider that offers companionship and social support for clients in various settings. These services may include attending social events, business meetings, private gatherings, or accompanying clients on travel arrangements. Outstanding service! The companion was elegant, professional, and made my evening unforgettable.' ); ?></textarea>
+	</p>
+	<p>
+		<label for="sgescort_testimonial_text"><?php esc_html_e( 'Testimonial Text', 'sgescort-basic' ); ?></label><br>
+		<textarea id="sgescort_testimonial_text" name="sgescort_testimonial_text" class="widefat" rows="3" placeholder="Singapore Escort Hub is Perfect match!..."><?php echo esc_textarea( $testimonial_text ?: '"Singapore Escort Hub is Perfect match! They understood my preferences and delivered beyond expectations."' ); ?></textarea>
+	</p>
+	<p>
+		<label for="sgescort_client_name"><?php esc_html_e( 'Client Name', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_client_name" name="sgescort_client_name" class="widefat" value="<?php echo esc_attr( $client_name ?: 'Jennifer Liu' ); ?>" placeholder="Jennifer Liu">
+	</p>
+	<p>
+		<label for="sgescort_client_role"><?php esc_html_e( 'Client Role', 'sgescort-basic' ); ?></label><br>
+		<input type="text" id="sgescort_client_role" name="sgescort_client_role" class="widefat" value="<?php echo esc_attr( $client_role ?: 'General customer' ); ?>" placeholder="General customer">
 	</p>
 	<?php
 }
@@ -604,6 +1039,7 @@ function sgescort_basic_save_about_meta( $post_id ) {
 
 	$fields = array(
 		'sgescort_about_subtitle',
+		'sgescort_about_title',
 		'sgescort_about_button1_text',
 		'sgescort_about_button1_url',
 		'sgescort_about_button2_text',
@@ -657,6 +1093,257 @@ function sgescort_basic_save_services_section_meta( $post_id ) {
 	}
 }
 add_action( 'save_post_sgescort_services_section', 'sgescort_basic_save_services_section_meta' );
+
+/**
+ * Save team section meta.
+ *
+ * @param int $post_id Post ID.
+ */
+function sgescort_basic_save_team_section_meta( $post_id ) {
+	if ( ! isset( $_POST['sgescort_team_section_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sgescort_team_section_meta_nonce'] ) ), 'sgescort_team_section_meta_save' ) ) {
+		return;
+	}
+
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+
+	if ( isset( $_POST['post_type'] ) && 'sgescort_team_section' === $_POST['post_type'] ) {
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+	}
+
+	$fields = array(
+		'sgescort_team_section_subtitle',
+		'sgescort_team_section_title',
+	);
+
+	foreach ( $fields as $field ) {
+		if ( isset( $_POST[ $field ] ) ) {
+			$value = sanitize_text_field( wp_unslash( $_POST[ $field ] ) );
+			update_post_meta( $post_id, '_' . $field, $value );
+		}
+	}
+}
+add_action( 'save_post_sgescort_team_section', 'sgescort_basic_save_team_section_meta' );
+
+/**
+ * Save portfolio section meta.
+ *
+ * @param int $post_id Post ID.
+ */
+function sgescort_basic_save_portfolio_section_meta( $post_id ) {
+	if ( ! isset( $_POST['sgescort_portfolio_section_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sgescort_portfolio_section_meta_nonce'] ) ), 'sgescort_portfolio_section_meta_save' ) ) {
+		return;
+	}
+
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+
+	if ( isset( $_POST['post_type'] ) && 'sgescort_portfolio_section' === $_POST['post_type'] ) {
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+	}
+
+	$fields = array(
+		'sgescort_portfolio_section_subtitle',
+		'sgescort_portfolio_section_title',
+	);
+
+	foreach ( $fields as $field ) {
+		if ( isset( $_POST[ $field ] ) ) {
+			$value = sanitize_text_field( wp_unslash( $_POST[ $field ] ) );
+			update_post_meta( $post_id, '_' . $field, $value );
+		}
+	}
+}
+add_action( 'save_post_sgescort_portfolio_section', 'sgescort_basic_save_portfolio_section_meta' );
+
+/**
+ * Save faq section meta.
+ *
+ * @param int $post_id Post ID.
+ */
+function sgescort_basic_save_faq_section_meta( $post_id ) {
+	if ( ! isset( $_POST['sgescort_faq_section_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sgescort_faq_section_meta_nonce'] ) ), 'sgescort_faq_section_meta_save' ) ) {
+		return;
+	}
+
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+
+	if ( isset( $_POST['post_type'] ) && 'sgescort_faq_section' === $_POST['post_type'] ) {
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+	}
+
+	$fields = array(
+		'sgescort_faq_section_subtitle',
+		'sgescort_faq_section_title',
+	);
+
+	foreach ( $fields as $field ) {
+		if ( isset( $_POST[ $field ] ) ) {
+			$value = sanitize_text_field( wp_unslash( $_POST[ $field ] ) );
+			update_post_meta( $post_id, '_' . $field, $value );
+		}
+	}
+}
+add_action( 'save_post_sgescort_faq_section', 'sgescort_basic_save_faq_section_meta' );
+
+/**
+ * Save news section meta.
+ *
+ * @param int $post_id Post ID.
+ */
+function sgescort_basic_save_news_section_meta( $post_id ) {
+	if ( ! isset( $_POST['sgescort_news_section_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sgescort_news_section_meta_nonce'] ) ), 'sgescort_news_section_meta_save' ) ) {
+		return;
+	}
+
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+
+	if ( isset( $_POST['post_type'] ) && 'sgescort_news_section' === $_POST['post_type'] ) {
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+	}
+
+	$fields = array(
+		'sgescort_news_section_subtitle',
+		'sgescort_news_section_title',
+	);
+
+	foreach ( $fields as $field ) {
+		if ( isset( $_POST[ $field ] ) ) {
+			$value = sanitize_text_field( wp_unslash( $_POST[ $field ] ) );
+			update_post_meta( $post_id, '_' . $field, $value );
+		}
+	}
+}
+add_action( 'save_post_sgescort_news_section', 'sgescort_basic_save_news_section_meta' );
+
+/**
+ * Save counter section meta.
+ *
+ * @param int $post_id Post ID.
+ */
+function sgescort_basic_save_counter_section_meta( $post_id ) {
+	if ( ! isset( $_POST['sgescort_counter_section_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sgescort_counter_section_meta_nonce'] ) ), 'sgescort_counter_section_meta_save' ) ) {
+		return;
+	}
+
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+
+	if ( isset( $_POST['post_type'] ) && 'sgescort_counter_section' === $_POST['post_type'] ) {
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+	}
+
+	$fields = array(
+		'sgescort_counter1_value',
+		'sgescort_counter1_label',
+		'sgescort_counter2_value',
+		'sgescort_counter2_label',
+		'sgescort_counter3_value',
+		'sgescort_counter3_label',
+		'sgescort_counter4_value',
+		'sgescort_counter4_label',
+	);
+
+	foreach ( $fields as $field ) {
+		if ( isset( $_POST[ $field ] ) ) {
+			$value = sanitize_text_field( wp_unslash( $_POST[ $field ] ) );
+			update_post_meta( $post_id, '_' . $field, $value );
+		}
+	}
+}
+add_action( 'save_post_sgescort_counter_section', 'sgescort_basic_save_counter_section_meta' );
+
+/**
+ * Save banner section meta.
+ *
+ * @param int $post_id Post ID.
+ */
+function sgescort_basic_save_banner_section_meta( $post_id ) {
+	if ( ! isset( $_POST['sgescort_banner_section_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sgescort_banner_section_meta_nonce'] ) ), 'sgescort_banner_section_meta_save' ) ) {
+		return;
+	}
+
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+
+	if ( isset( $_POST['post_type'] ) && 'sgescort_banner_section' === $_POST['post_type'] ) {
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+	}
+
+	$fields = array(
+		'sgescort_banner_title',
+		'sgescort_banner_button1_text',
+		'sgescort_banner_button1_url',
+		'sgescort_banner_button2_text',
+		'sgescort_banner_button2_url',
+	);
+
+	foreach ( $fields as $field ) {
+		if ( isset( $_POST[ $field ] ) ) {
+			$value = sanitize_text_field( wp_unslash( $_POST[ $field ] ) );
+			update_post_meta( $post_id, '_' . $field, $value );
+		}
+	}
+}
+add_action( 'save_post_sgescort_banner_section', 'sgescort_basic_save_banner_section_meta' );
+
+/**
+ * Save testimonials section meta.
+ *
+ * @param int $post_id Post ID.
+ */
+function sgescort_basic_save_testimonials_section_meta( $post_id ) {
+	if ( ! isset( $_POST['sgescort_testimonials_section_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sgescort_testimonials_section_meta_nonce'] ) ), 'sgescort_testimonials_section_meta_save' ) ) {
+		return;
+	}
+
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+
+	if ( isset( $_POST['post_type'] ) && 'sgescort_testimonials_section' === $_POST['post_type'] ) {
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+	}
+
+	$fields = array(
+		'sgescort_testimonials_subtitle',
+		'sgescort_testimonials_title',
+		'sgescort_testimonials_description',
+		'sgescort_testimonial_text',
+		'sgescort_client_name',
+		'sgescort_client_role',
+	);
+
+	foreach ( $fields as $field ) {
+		if ( isset( $_POST[ $field ] ) ) {
+			$value = sanitize_text_field( wp_unslash( $_POST[ $field ] ) );
+			update_post_meta( $post_id, '_' . $field, $value );
+		}
+	}
+}
+add_action( 'save_post_sgescort_testimonials_section', 'sgescort_basic_save_testimonials_section_meta' );
 
 /**
  * Set post thumbnail (featured image) from a file in html/images/.
@@ -812,9 +1499,471 @@ function sgescort_basic_maybe_insert_demo_news() {
 	}
 }
 
+/**
+ * Add admin menu for managing front-page sections.
+ */
+function sgescort_basic_add_admin_menu() {
+	add_menu_page(
+		__( 'Front Page Sections', 'sgescort-basic' ),
+		__( 'Front Page Sections', 'sgescort-basic' ),
+		'manage_options',
+		'front-page-sections',
+		'sgescort_basic_front_page_sections_page',
+		'dashicons-admin-page',
+		30
+	);
+}
+add_action( 'admin_menu', 'sgescort_basic_add_admin_menu' );
 
+/**
+ * Register settings for front-page sections.
+ */
+function sgescort_basic_register_settings() {
+	register_setting( 'sgescort_basic_front_page_sections', 'sgescort_basic_sections_enabled' );
+}
+add_action( 'admin_init', 'sgescort_basic_register_settings' );
 
+/**
+ * Admin page for managing front-page sections.
+ */
+function sgescort_basic_front_page_sections_page() {
+	?>
+	<div class="wrap">
+		<h1><?php esc_html_e( 'Manage Front Page Sections', 'sgescort-basic' ); ?></h1>
+		<form method="post" action="options.php">
+			<?php
+			settings_fields( 'sgescort_basic_front_page_sections' );
+			do_settings_sections( 'sgescort_basic_front_page_sections' );
+			$enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero', 'about', 'services', 'portfolio', 'banner', 'team', 'faq', 'news', 'counter', 'testimonials' ) );
+			?>
+			<table class="form-table">
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Enabled Sections', 'sgescort-basic' ); ?></th>
+					<td>
+						<fieldset>
+							<label for="hero">
+								<input type="checkbox" id="hero" name="sgescort_basic_sections_enabled[]" value="hero" <?php checked( in_array( 'hero', $enabled_sections ) ); ?> />
+								<?php esc_html_e( 'Hero Section', 'sgescort-basic' ); ?>
+							</label><br>
+							<label for="about">
+								<input type="checkbox" id="about" name="sgescort_basic_sections_enabled[]" value="about" <?php checked( in_array( 'about', $enabled_sections ) ); ?> />
+								<?php esc_html_e( 'About Section', 'sgescort-basic' ); ?>
+							</label><br>
+							<label for="services">
+								<input type="checkbox" id="services" name="sgescort_basic_sections_enabled[]" value="services" <?php checked( in_array( 'services', $enabled_sections ) ); ?> />
+								<?php esc_html_e( 'Services Section', 'sgescort-basic' ); ?>
+							</label><br>
+							<label for="portfolio">
+								<input type="checkbox" id="portfolio" name="sgescort_basic_sections_enabled[]" value="portfolio" <?php checked( in_array( 'portfolio', $enabled_sections ) ); ?> />
+								<?php esc_html_e( 'Portfolio Section (Gallery)', 'sgescort-basic' ); ?>
+							</label><br>
+							<label for="banner">
+								<input type="checkbox" id="banner" name="sgescort_basic_sections_enabled[]" value="banner" <?php checked( in_array( 'banner', $enabled_sections ) ); ?> />
+								<?php esc_html_e( 'Banner Section', 'sgescort-basic' ); ?>
+							</label><br>
+							<label for="team">
+								<input type="checkbox" id="team" name="sgescort_basic_sections_enabled[]" value="team" <?php checked( in_array( 'team', $enabled_sections ) ); ?> />
+								<?php esc_html_e( 'Team Section (Models)', 'sgescort-basic' ); ?>
+							</label><br>
+							<label for="faq">
+								<input type="checkbox" id="faq" name="sgescort_basic_sections_enabled[]" value="faq" <?php checked( in_array( 'faq', $enabled_sections ) ); ?> />
+								<?php esc_html_e( 'FAQ Section', 'sgescort-basic' ); ?>
+							</label><br>
+							<label for="contact">
+								<input type="checkbox" id="contact" name="sgescort_basic_sections_enabled[]" value="news" <?php checked( in_array( 'news', $enabled_sections ) ); ?> />
+								<?php esc_html_e( 'News Section', 'sgescort-basic' ); ?>
+							</label><br>
+							<label for="counter">
+								<input type="checkbox" id="counter" name="sgescort_basic_sections_enabled[]" value="counter" <?php checked( in_array( 'counter', $enabled_sections ) ); ?> />
+								<?php esc_html_e( 'Counter Section', 'sgescort-basic' ); ?>
+							</label><br>
+							<label for="testimonials">
+								<input type="checkbox" id="testimonials" name="sgescort_basic_sections_enabled[]" value="testimonials" <?php checked( in_array( 'testimonials', $enabled_sections ) ); ?> />
+								<?php esc_html_e( 'Testimonials Section', 'sgescort-basic' ); ?>
+							</label>
+						</fieldset>
+					</td>
+				</tr>
+			</table>
+			<?php submit_button(); ?>
+		</form>
+	</div>
+	<?php
+}
 
+/**
+ * Add admin menu for user guide.
+ */
+function sgescort_basic_add_user_guide_menu() {
+	add_menu_page(
+		__( 'User Guide', 'sgescort-basic' ),
+		__( 'User Guide', 'sgescort-basic' ),
+		'manage_options',
+		'user-guide',
+		'sgescort_basic_user_guide_page',
+		'dashicons-book-alt',
+		31
+	);
+}
+add_action( 'admin_menu', 'sgescort_basic_add_user_guide_menu' );
 
+/**
+ * Admin page for user guide.
+ */
+function sgescort_basic_user_guide_page() {
+	?>
+	<div class="wrap">
+		<h1><?php esc_html_e( 'Singapore Escort Hub - User Guide', 'sgescort-basic' ); ?></h1>
+		
+		<div class="card">
+			<h2><?php esc_html_e( 'Welcome to SG Escort Basic Theme', 'sgescort-basic' ); ?></h2>
+			<p><?php esc_html_e( 'This guide will help you manage and customize your Singapore Escort Hub website effectively.', 'sgescort-basic' ); ?></p>
+		</div>
 
+		<div class="card">
+			<h3><?php esc_html_e( '1. Managing Front Page Sections', 'sgescort-basic' ); ?></h3>
+			<p><?php esc_html_e( 'Go to Appearance > Front Page Sections to enable/disable sections on your homepage.', 'sgescort-basic' ); ?></p>
+			<ul>
+				<li><strong><?php esc_html_e( 'Hero Section:', 'sgescort-basic' ); ?></strong> <?php esc_html_e( 'Main banner with title, subtitle, and call-to-action buttons.', 'sgescort-basic' ); ?></li>
+				<li><strong><?php esc_html_e( 'About Section:', 'sgescort-basic' ); ?></strong> <?php esc_html_e( 'Information about your services.', 'sgescort-basic' ); ?></li>
+				<li><strong><?php esc_html_e( 'Services Section:', 'sgescort-basic' ); ?></strong> <?php esc_html_e( 'List of services offered.', 'sgescort-basic' ); ?></li>
+				<li><strong><?php esc_html_e( 'Portfolio Section:', 'sgescort-basic' ); ?></strong> <?php esc_html_e( 'Gallery of images.', 'sgescort-basic' ); ?></li>
+				<li><strong><?php esc_html_e( 'Team Section:', 'sgescort-basic' ); ?></strong> <?php esc_html_e( 'Display your models/escorts.', 'sgescort-basic' ); ?></li>
+				<li><strong><?php esc_html_e( 'FAQ Section:', 'sgescort-basic' ); ?></strong> <?php esc_html_e( 'Frequently asked questions.', 'sgescort-basic' ); ?></li>
+				<li><strong><?php esc_html_e( 'News Section:', 'sgescort-basic' ); ?></strong> <?php esc_html_e( 'Latest news and updates.', 'sgescort-basic' ); ?></li>
+				<li><strong><?php esc_html_e( 'Counter Section:', 'sgescort-basic' ); ?></strong> <?php esc_html_e( 'Statistics display.', 'sgescort-basic' ); ?></li>
+				<li><strong><?php esc_html_e( 'Testimonials Section:', 'sgescort-basic' ); ?></strong> <?php esc_html_e( 'Client reviews.', 'sgescort-basic' ); ?></li>
+			</ul>
+		</div>
 
+		<div class="card">
+			<h3><?php esc_html_e( '2. Editing Section Content', 'sgescort-basic' ); ?></h3>
+			<p><?php esc_html_e( 'Each section has its own custom post type for content management:', 'sgescort-basic' ); ?></p>
+			<ul>
+				<li><strong><?php esc_html_e( 'Hero Sections:', 'sgescort-basic' ); ?></strong> <?php esc_html_e( 'Edit titles, buttons, and links.', 'sgescort-basic' ); ?></li>
+				<li><strong><?php esc_html_e( 'About Sections:', 'sgescort-basic' ); ?></strong> <?php esc_html_e( 'Edit subtitle, title, and description.', 'sgescort-basic' ); ?></li>
+				<li><strong><?php esc_html_e( 'Services:', 'sgescort-basic' ); ?></strong> <?php esc_html_e( 'Add/edit individual services with images.', 'sgescort-basic' ); ?></li>
+				<li><strong><?php esc_html_e( 'Models:', 'sgescort-basic' ); ?></strong> <?php esc_html_e( 'Add/edit model profiles with photos and details.', 'sgescort-basic' ); ?></li>
+				<li><strong><?php esc_html_e( 'FAQs:', 'sgescort-basic' ); ?></strong> <?php esc_html_e( 'Add/edit frequently asked questions.', 'sgescort-basic' ); ?></li>
+				<li><strong><?php esc_html_e( 'Counter Sections:', 'sgescort-basic' ); ?></strong> <?php esc_html_e( 'Edit statistics numbers and labels.', 'sgescort-basic' ); ?></li>
+				<li><strong><?php esc_html_e( 'Testimonials Sections:', 'sgescort-basic' ); ?></strong> <?php esc_html_e( 'Edit testimonial content and client info.', 'sgescort-basic' ); ?></li>
+				<li><strong><?php esc_html_e( 'Guide Sections:', 'sgescort-basic' ); ?></strong> <?php esc_html_e( 'Edit user guide content.', 'sgescort-basic' ); ?></li>
+		</div>
+
+		<div class="card">
+			<h3><?php esc_html_e( '3. Adding Content', 'sgescort-basic' ); ?></h3>
+			<ol>
+				<li><?php esc_html_e( 'Go to the respective menu item (Services, Models, FAQs, etc.)', 'sgescort-basic' ); ?></li>
+				<li><?php esc_html_e( 'Click "Add New"', 'sgescort-basic' ); ?></li>
+				<li><?php esc_html_e( 'Fill in the title and content', 'sgescort-basic' ); ?></li>
+				<li><?php esc_html_e( 'Add featured image if applicable', 'sgescort-basic' ); ?></li>
+				<li><?php esc_html_e( 'Fill in custom fields in the meta box', 'sgescort-basic' ); ?></li>
+				<li><?php esc_html_e( 'Set menu order if you want specific ordering', 'sgescort-basic' ); ?></li>
+				<li><?php esc_html_e( 'Publish the post', 'sgescort-basic' ); ?></li>
+			</ol>
+		</div>
+
+		<div class="card">
+			<h3><?php esc_html_e( '4. Managing Models', 'sgescort-basic' ); ?></h3>
+			<p><?php esc_html_e( 'Models are your escort profiles. For each model:', 'sgescort-basic' ); ?></p>
+			<ul>
+				<li><?php esc_html_e( 'Add a featured image (photo)', 'sgescort-basic' ); ?></li>
+				<li><?php esc_html_e( 'Set role/title (e.g., "Premium Escort")', 'sgescort-basic' ); ?></li>
+				<li><?php esc_html_e( 'Add profile URL (link to detailed profile)', 'sgescort-basic' ); ?></li>
+				<li><?php esc_html_e( 'Use menu order to control display order', 'sgescort-basic' ); ?></li>
+			</ul>
+		</div>
+
+		<div class="card">
+			<h3><?php esc_html_e( '5. News & Blog Posts', 'sgescort-basic' ); ?></h3>
+			<p><?php esc_html_e( 'Use standard WordPress posts for news:', 'sgescort-basic' ); ?></p>
+			<ul>
+				<li><?php esc_html_e( 'Go to Posts > Add New', 'sgescort-basic' ); ?></li>
+				<li><?php esc_html_e( 'Write your news article', 'sgescort-basic' ); ?></li>
+				<li><?php esc_html_e( 'Add featured image', 'sgescort-basic' ); ?></li>
+				<li><?php esc_html_e( 'Posts will automatically appear in the News section', 'sgescort-basic' ); ?></li>
+			</ul>
+		</div>
+
+		<div class="card">
+			<h3><?php esc_html_e( '6. Theme Customization', 'sgescort-basic' ); ?></h3>
+			<ul>
+				<li><strong><?php esc_html_e( 'Menus:', 'sgescort-basic' ); ?></strong> <?php esc_html_e( 'Appearance > Menus', 'sgescort-basic' ); ?></li>
+				<li><strong><?php esc_html_e( 'Widgets:', 'sgescort-basic' ); ?></strong> <?php esc_html_e( 'Appearance > Widgets', 'sgescort-basic' ); ?></li>
+				<li><strong><?php esc_html_e( 'Customizer:', 'sgescort-basic' ); ?></strong> <?php esc_html_e( 'Appearance > Customize', 'sgescort-basic' ); ?></li>
+				<li><strong><?php esc_html_e( 'Theme Options:', 'sgescort-basic' ); ?></strong> <?php esc_html_e( 'Use the menu items provided by this theme', 'sgescort-basic' ); ?></li>
+			</ul>
+		</div>
+
+		<div class="card">
+			<h3><?php esc_html_e( '7. Support & Contact', 'sgescort-basic' ); ?></h3>
+			<p><?php esc_html_e( 'For technical support or questions about the theme:', 'sgescort-basic' ); ?></p>
+			<ul>
+				<li><?php esc_html_e( 'Check this user guide first', 'sgescort-basic' ); ?></li>
+				<li><?php esc_html_e( 'Contact the theme developer', 'sgescort-basic' ); ?></li>
+				<li><?php esc_html_e( 'Refer to WordPress.org documentation', 'sgescort-basic' ); ?></li>
+			</ul>
+		</div>
+
+		<style>
+			.card {
+				background: #fff;
+				border: 1px solid #ddd;
+				border-radius: 4px;
+				padding: 20px;
+				margin-bottom: 20px;
+				box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+			}
+			.card h2, .card h3 {
+				margin-top: 0;
+				color: #23282d;
+			}
+			.card ul, .card ol {
+				margin-left: 20px;
+			}
+			.card li {
+				margin-bottom: 5px;
+			}
+		</style>
+	</div>
+	<?php
+}
+
+/**
+ * Add admin menu for section manager.
+ */
+function sgescort_basic_add_section_manager_menu() {
+	add_menu_page(
+		__( 'Section Manager', 'sgescort-basic' ),
+		__( 'Section Manager', 'sgescort-basic' ),
+		'manage_options',
+		'section-manager',
+		'sgescort_basic_section_manager_page',
+		'dashicons-layout',
+		32
+	);
+}
+add_action( 'admin_menu', 'sgescort_basic_add_section_manager_menu' );
+
+/**
+ * Admin page for section manager.
+ */
+function sgescort_basic_section_manager_page() {
+	?>
+	<div class="wrap">
+		<h1><?php esc_html_e( 'Section Manager - Singapore Escort Hub', 'sgescort-basic' ); ?></h1>
+		<p><?php esc_html_e( 'Manage all homepage sections from this central location. Click on any section to edit its content.', 'sgescort-basic' ); ?></p>
+
+		<div class="section-manager-grid">
+			<?php
+			$sections = array(
+				'hero' => array(
+					'title' => __( 'Hero Section', 'sgescort-basic' ),
+					'description' => __( 'Main banner with title, subtitle, and call-to-action buttons', 'sgescort-basic' ),
+					'cpt' => 'sgescort_hero',
+					'icon' => 'dashicons-star-filled'
+				),
+				'about' => array(
+					'title' => __( 'About Section', 'sgescort-basic' ),
+					'description' => __( 'Information about your services', 'sgescort-basic' ),
+					'cpt' => 'sgescort_about',
+					'icon' => 'dashicons-info'
+				),
+				'services' => array(
+					'title' => __( 'Services Section', 'sgescort-basic' ),
+					'description' => __( 'List of services offered', 'sgescort-basic' ),
+					'cpt' => 'sgescort_services_section',
+					'icon' => 'dashicons-admin-tools',
+					'items_cpt' => 'sgescort_service'
+				),
+				'portfolio' => array(
+					'title' => __( 'Portfolio Section (Gallery)', 'sgescort-basic' ),
+					'description' => __( 'Gallery of images', 'sgescort-basic' ),
+					'cpt' => 'sgescort_portfolio_section',
+					'icon' => 'dashicons-images-alt'
+				),
+				'banner' => array(
+					'title' => __( 'Banner Section', 'sgescort-basic' ),
+					'description' => __( 'Call-to-action banner', 'sgescort-basic' ),
+					'cpt' => 'sgescort_banner_section',
+					'icon' => 'dashicons-megaphone'
+				),
+				'team' => array(
+					'title' => __( 'Team Section (Models)', 'sgescort-basic' ),
+					'description' => __( 'Display your models/escorts', 'sgescort-basic' ),
+					'cpt' => 'sgescort_team_section',
+					'icon' => 'dashicons-groups',
+					'items_cpt' => 'sgescort_model'
+				),
+				'faq' => array(
+					'title' => __( 'FAQ Section', 'sgescort-basic' ),
+					'description' => __( 'Frequently asked questions', 'sgescort-basic' ),
+					'cpt' => 'sgescort_faq_section',
+					'icon' => 'dashicons-editor-help',
+					'items_cpt' => 'sgescort_faq'
+				),
+				'news' => array(
+					'title' => __( 'News Section', 'sgescort-basic' ),
+					'description' => __( 'Latest news and updates', 'sgescort-basic' ),
+					'cpt' => 'sgescort_news_section',
+					'icon' => 'dashicons-admin-site'
+				),
+				'counter' => array(
+					'title' => __( 'Counter Section', 'sgescort-basic' ),
+					'description' => __( 'Statistics display', 'sgescort-basic' ),
+					'cpt' => 'sgescort_counter_section',
+					'icon' => 'dashicons-chart-bar'
+				),
+				'testimonials' => array(
+					'title' => __( 'Testimonials Section', 'sgescort-basic' ),
+					'description' => __( 'Client reviews', 'sgescort-basic' ),
+					'cpt' => 'sgescort_testimonials_section',
+					'icon' => 'dashicons-testimonial'
+				)
+			);
+
+			foreach ( $sections as $section_key => $section ) :
+				// Check if section has content
+				$query = new WP_Query( array(
+					'post_type' => $section['cpt'],
+					'posts_per_page' => 1,
+					'post_status' => 'publish'
+				) );
+				$has_content = $query->have_posts();
+				$content_link = $has_content ? get_edit_post_link( $query->posts[0]->ID ) : admin_url( 'post-new.php?post_type=' . $section['cpt'] );
+				$content_status = $has_content ? __( 'Has Content', 'sgescort-basic' ) : __( 'No Content', 'sgescort-basic' );
+				$status_class = $has_content ? 'has-content' : 'no-content';
+				?>
+				<div class="section-card <?php echo esc_attr( $status_class ); ?>">
+					<div class="section-card-header">
+						<span class="dashicons <?php echo esc_attr( $section['icon'] ); ?>"></span>
+						<h3><?php echo esc_html( $section['title'] ); ?></h3>
+						<span class="content-status"><?php echo esc_html( $content_status ); ?></span>
+					</div>
+					<div class="section-card-body">
+						<p><?php echo esc_html( $section['description'] ); ?></p>
+						<div class="section-actions">
+							<a href="<?php echo esc_url( $content_link ); ?>" class="button button-primary">
+								<?php echo $has_content ? esc_html__( 'Edit Content', 'sgescort-basic' ) : esc_html__( 'Add Content', 'sgescort-basic' ); ?>
+							</a>
+							<?php if ( isset( $section['items_cpt'] ) ) : ?>
+								<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=' . $section['items_cpt'] ) ); ?>" class="button">
+									<?php esc_html_e( 'Manage Items', 'sgescort-basic' ); ?>
+								</a>
+							<?php endif; ?>
+						</div>
+					</div>
+				</div>
+				<?php
+			endforeach;
+			?>
+		</div>
+
+		<div class="section-manager-info">
+			<h3><?php esc_html_e( 'Quick Actions', 'sgescort-basic' ); ?></h3>
+			<ul>
+				<li><a href="<?php echo esc_url( admin_url( 'themes.php?page=front-page-sections' ) ); ?>"><?php esc_html_e( 'Enable/Disable Sections', 'sgescort-basic' ); ?></a></li>
+				<li><a href="<?php echo esc_url( admin_url( 'themes.php?page=user-guide' ) ); ?>"><?php esc_html_e( 'View User Guide', 'sgescort-basic' ); ?></a></li>
+				<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>" target="_blank"><?php esc_html_e( 'View Homepage', 'sgescort-basic' ); ?></a></li>
+			</ul>
+		</div>
+
+		<style>
+			.section-manager-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+				gap: 20px;
+				margin-bottom: 30px;
+			}
+			.section-card {
+				background: #fff;
+				border: 1px solid #ddd;
+				border-radius: 8px;
+				box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+				transition: all 0.3s ease;
+			}
+			.section-card:hover {
+				box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+				transform: translateY(-2px);
+			}
+			.section-card.has-content {
+				border-left: 4px solid #46b450;
+			}
+			.section-card.no-content {
+				border-left: 4px solid #ffb900;
+			}
+			.section-card-header {
+				padding: 15px 20px;
+				border-bottom: 1px solid #eee;
+				display: flex;
+				align-items: center;
+				gap: 10px;
+			}
+			.section-card-header .dashicons {
+				font-size: 24px;
+				color: #007cba;
+			}
+			.section-card-header h3 {
+				margin: 0;
+				flex: 1;
+			}
+			.content-status {
+				font-size: 12px;
+				padding: 4px 8px;
+				border-radius: 12px;
+				font-weight: 500;
+			}
+			.section-card.has-content .content-status {
+				background: #d4edda;
+				color: #155724;
+			}
+			.section-card.no-content .content-status {
+				background: #fff3cd;
+				color: #856404;
+			}
+			.section-card-body {
+				padding: 20px;
+			}
+			.section-card-body p {
+				margin: 0 0 15px 0;
+				color: #666;
+			}
+			.section-actions {
+				display: flex;
+				gap: 10px;
+				flex-wrap: wrap;
+			}
+			.section-actions .button {
+				flex: 1;
+				min-width: 120px;
+				text-align: center;
+			}
+			.section-manager-info {
+				background: #fff;
+				border: 1px solid #ddd;
+				border-radius: 8px;
+				padding: 20px;
+				margin-top: 20px;
+			}
+			.section-manager-info h3 {
+				margin-top: 0;
+				color: #23282d;
+			}
+			.section-manager-info ul {
+				margin: 0;
+				padding-left: 20px;
+			}
+			.section-manager-info li {
+				margin-bottom: 8px;
+			}
+			.section-manager-info a {
+				color: #007cba;
+				text-decoration: none;
+			}
+			.section-manager-info a:hover {
+				text-decoration: underline;
+			}
+		</style>
+	</div>
+	<?php
+}

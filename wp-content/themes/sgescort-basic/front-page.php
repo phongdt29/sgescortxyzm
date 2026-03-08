@@ -1,11 +1,11 @@
 get_header();
 
-if ( have_posts() ) {
-	the_post();
-	$post_id = get_the_ID();
-}
+$post_id = get_the_ID();
+
+$enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero', 'about', 'services', 'portfolio', 'banner', 'team', 'faq', 'news', 'counter', 'testimonials' ) );
 ?>
 
+<?php if ( in_array( 'hero', $enabled_sections ) ) : ?>
 <!-- Hero Section -->
 <section id="home" class="slide-area">
 	<div class="container">
@@ -70,7 +70,9 @@ if ( have_posts() ) {
 		</div>
 	</div>
 </section>
+<?php endif; ?>
 
+<?php if ( in_array( 'about', $enabled_sections ) ) : ?>
 <!-- About Section -->
 <section id="about" class="about-area bg-color area-padding">
 	<div class="container">
@@ -88,8 +90,34 @@ if ( have_posts() ) {
 			<div class="col-md-6">
 				<div class="about-content">
 					<div class="about-headline">
-						<span class="top-head">About Us</span>
-						<h3>About Singapore Escort Hub</h3>
+						<?php
+						$about_query = new WP_Query(
+							array(
+								'post_type'      => 'sgescort_about',
+								'posts_per_page' => 1,
+								'orderby'        => 'menu_order',
+								'order'          => 'ASC',
+							)
+						);
+
+						if ( $about_query->have_posts() ) :
+							while ( $about_query->the_post() ) :
+								$about_id = get_the_ID();
+								$subtitle = get_post_meta( $about_id, '_sgescort_about_subtitle', true );
+								$title = get_post_meta( $about_id, '_sgescort_about_title', true );
+								?>
+								<span class="top-head"><?php echo esc_html( $subtitle ?: 'About Us' ); ?></span>
+								<h3><?php echo esc_html( $title ?: 'About Singapore Escort Hub' ); ?></h3>
+								<?php
+							endwhile;
+							wp_reset_postdata();
+						else :
+							?>
+							<span class="top-head">About Us</span>
+							<h3>About Singapore Escort Hub</h3>
+							<?php
+						endif;
+						?>
 					</div>
 					<?php if ( get_the_content() ) : ?>
 						<div class="entry-content">
@@ -117,7 +145,9 @@ if ( have_posts() ) {
 		</div>
 	</div>
 </section>
+<?php endif; ?>
 
+<?php if ( in_array( 'services', $enabled_sections ) ) : ?>
 <!-- Services Section -->
 <section id="services" class="services-area bg-color-2 area-padding-2">
 	<div class="container">
@@ -265,47 +295,131 @@ if ( have_posts() ) {
 		</div>
 	</div>
 </section>
+<?php endif; ?>
 
+<?php if ( in_array( 'counter', $enabled_sections ) ) : ?>
 <!-- Counter Section -->
 <section class="counter-area area-padding">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-3 col-sm-6">
-				<div class="fun_text">
-					<span class="counter">100</span><span class="counterplus">+</span>
-					<h4>Popular Models</h4>
+			<?php
+			$counter_section_query = new WP_Query(
+				array(
+					'post_type'      => 'sgescort_counter_section',
+					'posts_per_page' => 1,
+					'orderby'        => 'menu_order',
+					'order'          => 'ASC',
+				)
+			);
+
+			if ( $counter_section_query->have_posts() ) :
+				while ( $counter_section_query->the_post() ) :
+					$counter_section_id = get_the_ID();
+					$counter1_value = get_post_meta( $counter_section_id, '_sgescort_counter1_value', true );
+					$counter1_label = get_post_meta( $counter_section_id, '_sgescort_counter1_label', true );
+					$counter2_value = get_post_meta( $counter_section_id, '_sgescort_counter2_value', true );
+					$counter2_label = get_post_meta( $counter_section_id, '_sgescort_counter2_label', true );
+					$counter3_value = get_post_meta( $counter_section_id, '_sgescort_counter3_value', true );
+					$counter3_label = get_post_meta( $counter_section_id, '_sgescort_counter3_label', true );
+					$counter4_value = get_post_meta( $counter_section_id, '_sgescort_counter4_value', true );
+					$counter4_label = get_post_meta( $counter_section_id, '_sgescort_counter4_label', true );
+					?>
+					<div class="col-md-3 col-sm-6">
+						<div class="fun_text">
+							<span class="counter"><?php echo esc_html( $counter1_value ?: '100' ); ?></span><span class="counterplus">+</span>
+							<h4><?php echo esc_html( $counter1_label ?: 'Popular Models' ); ?></h4>
+						</div>
+					</div>
+					<div class="col-md-3 col-sm-6">
+						<div class="fun_text">
+							<span class="counter"><?php echo esc_html( $counter2_value ?: '200' ); ?></span><span class="counterplus">+</span>
+							<h4><?php echo esc_html( $counter2_label ?: 'Total Models' ); ?></h4>
+						</div>
+					</div>
+					<div class="col-md-3 col-sm-6">
+						<div class="fun_text">
+							<span class="counter"><?php echo esc_html( $counter3_value ?: '5' ); ?></span><span class="counterplus">+</span>
+							<h4><?php echo esc_html( $counter3_label ?: 'Areas' ); ?></h4>
+						</div>
+					</div>
+					<div class="col-md-3 col-sm-6">
+						<div class="fun_text">
+							<span class="counter"><?php echo esc_html( $counter4_value ?: '15000' ); ?></span><span class="counterplus">+</span>
+							<h4><?php echo esc_html( $counter4_label ?: 'Followers' ); ?></h4>
+						</div>
+					</div>
+					<?php
+				endwhile;
+				wp_reset_postdata();
+			else :
+				?>
+				<div class="col-md-3 col-sm-6">
+					<div class="fun_text">
+						<span class="counter">100</span><span class="counterplus">+</span>
+						<h4>Popular Models</h4>
+					</div>
 				</div>
-			</div>
-			<div class="col-md-3 col-sm-6">
-				<div class="fun_text">
-					<span class="counter">200</span><span class="counterplus">+</span>
-					<h4>Total Models</h4>
+				<div class="col-md-3 col-sm-6">
+					<div class="fun_text">
+						<span class="counter">200</span><span class="counterplus">+</span>
+						<h4>Total Models</h4>
+					</div>
 				</div>
-			</div>
-			<div class="col-md-3 col-sm-6">
-				<div class="fun_text">
-					<span class="counter">5</span><span class="counterplus">+</span>
-					<h4>Areas</h4>
+				<div class="col-md-3 col-sm-6">
+					<div class="fun_text">
+						<span class="counter">5</span><span class="counterplus">+</span>
+						<h4>Areas</h4>
+					</div>
 				</div>
-			</div>
-			<div class="col-md-3 col-sm-6">
-				<div class="fun_text">
-					<span class="counter">15000</span><span class="counterplus">+</span>
-					<h4>Followers</h4>
+				<div class="col-md-3 col-sm-6">
+					<div class="fun_text">
+						<span class="counter">15000</span><span class="counterplus">+</span>
+						<h4>Followers</h4>
+					</div>
 				</div>
-			</div>
+				<?php
+			endif;
+			?>
 		</div>
 	</div>
 </section>
+<?php endif; ?>
 
+<?php if ( in_array( 'portfolio', $enabled_sections ) ) : ?>
 <!-- Portfolio Section -->
 <section id="portfolio" class="project-area bg-color-2 area-padding-2">
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
 				<div class="section-headline white-headline text-center">
-					<span class="top-head">Gallery</span>
-					<h3>SG SCORT HUB PORTFOLIO</h3>
+					<?php
+					$portfolio_section_query = new WP_Query(
+						array(
+							'post_type'      => 'sgescort_portfolio_section',
+							'posts_per_page' => 1,
+							'orderby'        => 'menu_order',
+							'order'          => 'ASC',
+						)
+					);
+
+					if ( $portfolio_section_query->have_posts() ) :
+						while ( $portfolio_section_query->the_post() ) :
+							$portfolio_section_id = get_the_ID();
+							$subtitle = get_post_meta( $portfolio_section_id, '_sgescort_portfolio_section_subtitle', true );
+							$title = get_post_meta( $portfolio_section_id, '_sgescort_portfolio_section_title', true );
+							?>
+							<span class="top-head"><?php echo esc_html( $subtitle ?: 'Gallery' ); ?></span>
+							<h3><?php echo esc_html( $title ?: 'SG SCORT HUB PORTFOLIO' ); ?></h3>
+							<?php
+						endwhile;
+						wp_reset_postdata();
+					else :
+						?>
+						<span class="top-head">Gallery</span>
+						<h3>SG SCORT HUB PORTFOLIO</h3>
+						<?php
+					endif;
+					?>
 				</div>
 			</div>
 		</div>
@@ -356,32 +470,103 @@ if ( have_posts() ) {
 		<div class="slider-dots" id="sliderDots"></div>
 	</div>
 </section>
+<?php endif; ?>
 
+<?php if ( in_array( 'banner', $enabled_sections ) ) : ?>
 <!-- Banner Section -->
 <section class="banner-area area-padding">
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
 				<div class="banner-content">
-					<h2>Elevate Your Experience, Every Moment.</h2>
-					<div class="banner-contact">
-						<a class="slide-btn" href="https://sgescorthub.com/">Visit SGESCORTHUB.COM</a>
-						<a class="slide-btn" href="https://t.me/+qQYECOoAHgZhNzU1" rel="nofollow">Visit 新加坡小姐网 Telegram</a>
-					</div>
+					<?php
+					$banner_query = new WP_Query(
+						array(
+							'post_type'      => 'sgescort_banner_section',
+							'posts_per_page' => 1,
+							'orderby'        => 'menu_order',
+							'order'          => 'ASC',
+						)
+					);
+
+					if ( $banner_query->have_posts() ) :
+						while ( $banner_query->the_post() ) :
+							$banner_id = get_the_ID();
+							$title = get_post_meta( $banner_id, '_sgescort_banner_title', true );
+							$button1_text = get_post_meta( $banner_id, '_sgescort_banner_button1_text', true );
+							$button1_url = get_post_meta( $banner_id, '_sgescort_banner_button1_url', true );
+							$button2_text = get_post_meta( $banner_id, '_sgescort_banner_button2_text', true );
+							$button2_url = get_post_meta( $banner_id, '_sgescort_banner_button2_url', true );
+							?>
+							<h2><?php echo esc_html( $title ?: 'Elevate Your Experience, Every Moment.' ); ?></h2>
+							<div class="banner-contact">
+								<?php if ( $button1_text && $button1_url ) : ?>
+									<a class="slide-btn" href="<?php echo esc_url( $button1_url ); ?>"><?php echo esc_html( $button1_text ); ?></a>
+								<?php else : ?>
+									<a class="slide-btn" href="https://sgescorthub.com/">Visit SGESCORTHUB.COM</a>
+								<?php endif; ?>
+								<?php if ( $button2_text && $button2_url ) : ?>
+									<a class="slide-btn" href="<?php echo esc_url( $button2_url ); ?>"><?php echo esc_html( $button2_text ); ?></a>
+								<?php else : ?>
+									<a class="slide-btn" href="https://t.me/+qQYECOoAHgZhNzU1" rel="nofollow">Visit 新加坡小姐网 Telegram</a>
+								<?php endif; ?>
+							</div>
+							<?php
+						endwhile;
+						wp_reset_postdata();
+					else :
+						?>
+						<h2>Elevate Your Experience, Every Moment.</h2>
+						<div class="banner-contact">
+							<a class="slide-btn" href="https://sgescorthub.com/">Visit SGESCORTHUB.COM</a>
+							<a class="slide-btn" href="https://t.me/+qQYECOoAHgZhNzU1" rel="nofollow">Visit 新加坡小姐网 Telegram</a>
+						</div>
+						<?php
+					endif;
+					?>
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
+<?php endif; ?>
 
+<?php if ( in_array( 'team', $enabled_sections ) ) : ?>
 <!-- Team Section -->
 <section id="team" class="team-area bg-color-2 area-padding-2">
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
 				<div class="section-headline white-headline text-center">
-					<span class="top-head">TOP Models</span>
-					<h3>Meet Our Models</h3>
+					<?php
+					$team_section_query = new WP_Query(
+						array(
+							'post_type'      => 'sgescort_team_section',
+							'posts_per_page' => 1,
+							'orderby'        => 'menu_order',
+							'order'          => 'ASC',
+						)
+					);
+
+					if ( $team_section_query->have_posts() ) :
+						while ( $team_section_query->have_posts() ) :
+							$team_section_query->the_post();
+							$team_section_id = get_the_ID();
+							$subtitle = get_post_meta( $team_section_id, '_sgescort_team_section_subtitle', true );
+							$title = get_post_meta( $team_section_id, '_sgescort_team_section_title', true );
+							?>
+							<span class="top-head"><?php echo esc_html( $subtitle ?: 'TOP Models' ); ?></span>
+							<h3><?php echo esc_html( $title ?: 'Meet Our Models' ); ?></h3>
+							<?php
+						endwhile;
+						wp_reset_postdata();
+					else :
+						?>
+						<span class="top-head">TOP Models</span>
+						<h3>Meet Our Models</h3>
+						<?php
+					endif;
+					?>
 				</div>
 			</div>
 		</div>
@@ -548,21 +733,54 @@ if ( have_posts() ) {
 		<div class="slider-dots" id="teamSliderDots"></div>
 	</div>
 </section>
+<?php endif; ?>
 
+<?php if ( in_array( 'testimonials', $enabled_sections ) ) : ?>
 <!-- Testimonials Section -->
 <section class="reviews-area bg-color area-padding">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-5">
 				<div class="section-headline">
-					<span class="top-head">Testimonials</span>
-					<h3>What Our Clients Say</h3>
-					<p>
-						An Escort Agency is a professional service provider that offers companionship and social support
-						for clients in various settings. These services may include attending social events, business
-						meetings, private gatherings, or accompanying clients on travel arrangements. Outstanding service!
-						The companion was elegant, professional, and made my evening unforgettable.
-					</p>
+					<?php
+					$testimonials_query = new WP_Query(
+						array(
+							'post_type'      => 'sgescort_testimonials_section',
+							'posts_per_page' => 1,
+							'orderby'        => 'menu_order',
+							'order'          => 'ASC',
+						)
+					);
+
+					if ( $testimonials_query->have_posts() ) :
+						while ( $testimonials_query->the_post() ) :
+							$testimonials_id = get_the_ID();
+							$subtitle = get_post_meta( $testimonials_id, '_sgescort_testimonials_subtitle', true );
+							$title = get_post_meta( $testimonials_id, '_sgescort_testimonials_title', true );
+							$description = get_post_meta( $testimonials_id, '_sgescort_testimonials_description', true );
+							$testimonial_text = get_post_meta( $testimonials_id, '_sgescort_testimonial_text', true );
+							$client_name = get_post_meta( $testimonials_id, '_sgescort_client_name', true );
+							$client_role = get_post_meta( $testimonials_id, '_sgescort_client_role', true );
+							?>
+							<span class="top-head"><?php echo esc_html( $subtitle ?: 'Testimonials' ); ?></span>
+							<h3><?php echo esc_html( $title ?: 'What Our Clients Say' ); ?></h3>
+							<p><?php echo esc_html( $description ?: 'An Escort Agency is a professional service provider that offers companionship and social support for clients in various settings. These services may include attending social events, business meetings, private gatherings, or accompanying clients on travel arrangements. Outstanding service! The companion was elegant, professional, and made my evening unforgettable.' ); ?></p>
+							<?php
+						endwhile;
+						wp_reset_postdata();
+					else :
+						?>
+						<span class="top-head">Testimonials</span>
+						<h3>What Our Clients Say</h3>
+						<p>
+							An Escort Agency is a professional service provider that offers companionship and social support
+							for clients in various settings. These services may include attending social events, business
+							meetings, private gatherings, or accompanying clients on travel arrangements. Outstanding service!
+							The companion was elegant, professional, and made my evening unforgettable.
+						</p>
+						<?php
+					endif;
+					?>
 				</div>
 			</div>
 			<div class="col-md-7">
@@ -576,13 +794,25 @@ if ( have_posts() ) {
 								<i class="fa fa-star"></i>
 								<i class="fa fa-star"></i>
 							</div>
-							<p class="clients-text">
-								"Singapore Escort Hub is Perfect match! They understood my preferences and delivered
-								beyond expectations."
-							</p>
+							<?php if ( isset( $testimonial_text ) && $testimonial_text ) : ?>
+								<p class="clients-text"><?php echo esc_html( $testimonial_text ); ?></p>
+							<?php else : ?>
+								<p class="clients-text">
+									"Singapore Escort Hub is Perfect match! They understood my preferences and delivered
+									beyond expectations."
+								</p>
+							<?php endif; ?>
 							<div class="guest-details">
-								<h4>Jennifer Liu</h4>
-								<span class="guest-rev">General customer</span>
+								<?php if ( isset( $client_name ) && $client_name ) : ?>
+									<h4><?php echo esc_html( $client_name ); ?></h4>
+								<?php else : ?>
+									<h4>Jennifer Liu</h4>
+								<?php endif; ?>
+								<?php if ( isset( $client_role ) && $client_role ) : ?>
+									<span class="guest-rev"><?php echo esc_html( $client_role ); ?></span>
+								<?php else : ?>
+									<span class="guest-rev">General customer</span>
+								<?php endif; ?>
 							</div>
 						</div>
 					</div>
@@ -591,15 +821,43 @@ if ( have_posts() ) {
 		</div>
 	</div>
 </section>
+<?php endif; ?>
 
+<?php if ( in_array( 'faq', $enabled_sections ) ) : ?>
 <!-- FAQ Section -->
 <section id="faq" class="faq-area bg-color area-padding">
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
 				<div class="section-headline text-center">
-					<span class="top-head">FAQ</span>
-					<h3>Frequently Asked Questions</h3>
+					<?php
+					$faq_section_query = new WP_Query(
+						array(
+							'post_type'      => 'sgescort_faq_section',
+							'posts_per_page' => 1,
+							'orderby'        => 'menu_order',
+							'order'          => 'ASC',
+						)
+					);
+
+					if ( $faq_section_query->have_posts() ) :
+						while ( $faq_section_query->the_post() ) :
+							$faq_section_id = get_the_ID();
+							$subtitle = get_post_meta( $faq_section_id, '_sgescort_faq_section_subtitle', true );
+							$title = get_post_meta( $faq_section_id, '_sgescort_faq_section_title', true );
+							?>
+							<span class="top-head"><?php echo esc_html( $subtitle ?: 'FAQ' ); ?></span>
+							<h3><?php echo esc_html( $title ?: 'Frequently Asked Questions' ); ?></h3>
+							<?php
+						endwhile;
+						wp_reset_postdata();
+					else :
+						?>
+						<span class="top-head">FAQ</span>
+						<h3>Frequently Asked Questions</h3>
+						<?php
+					endif;
+					?>
 					<p>Find answers to the most common questions about our escort services in Singapore</p>
 				</div>
 			</div>
@@ -770,15 +1028,43 @@ if ( have_posts() ) {
 		</div>
 	</div>
 </section>
+<?php endif; ?>
 
+<?php if ( in_array( 'news', $enabled_sections ) ) : ?>
 <!-- News Section -->
 <section id="news" class="news-area bg-color-2 area-padding-2">
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
 				<div class="section-headline white-headline text-center">
-					<span class="top-head"><?php esc_html_e( 'News', 'sgescort-basic' ); ?></span>
-					<h3><?php esc_html_e( 'Latest News & Updates', 'sgescort-basic' ); ?></h3>
+					<?php
+					$news_section_query = new WP_Query(
+						array(
+							'post_type'      => 'sgescort_news_section',
+							'posts_per_page' => 1,
+							'orderby'        => 'menu_order',
+							'order'          => 'ASC',
+						)
+					);
+
+					if ( $news_section_query->have_posts() ) :
+						while ( $news_section_query->the_post() ) :
+							$news_section_id = get_the_ID();
+							$subtitle = get_post_meta( $news_section_id, '_sgescort_news_section_subtitle', true );
+							$title = get_post_meta( $news_section_id, '_sgescort_news_section_title', true );
+							?>
+							<span class="top-head"><?php echo esc_html( $subtitle ?: esc_html__( 'News', 'sgescort-basic' ) ); ?></span>
+							<h3><?php echo esc_html( $title ?: esc_html__( 'Latest News & Updates', 'sgescort-basic' ) ); ?></h3>
+							<?php
+						endwhile;
+						wp_reset_postdata();
+					else :
+						?>
+						<span class="top-head"><?php esc_html_e( 'News', 'sgescort-basic' ); ?></span>
+						<h3><?php esc_html_e( 'Latest News & Updates', 'sgescort-basic' ); ?></h3>
+						<?php
+					endif;
+					?>
 				</div>
 			</div>
 		</div>
@@ -845,6 +1131,7 @@ if ( have_posts() ) {
 		<?php endif; ?>
 	</div>
 </section>
+<?php endif; ?>
 
 <?php
 get_footer();
