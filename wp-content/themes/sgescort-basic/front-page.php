@@ -305,7 +305,7 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 			<?php
 			$counter_section_query = new WP_Query(
 				array(
-					'post_type'      => 'sgescort_counter_section',
+					'post_type'      => 'sgescort_counter',
 					'posts_per_page' => 1,
 					'orderby'        => 'menu_order',
 					'order'          => 'ASC',
@@ -395,7 +395,7 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 					<?php
 					$portfolio_section_query = new WP_Query(
 						array(
-							'post_type'      => 'sgescort_portfolio_section',
+							'post_type'      => 'sgescort_portfolio',
 							'posts_per_page' => 1,
 							'orderby'        => 'menu_order',
 							'order'          => 'ASC',
@@ -405,8 +405,8 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 					if ( $portfolio_section_query->have_posts() ) :
 						while ( $portfolio_section_query->the_post() ) :
 							$portfolio_section_id = get_the_ID();
-							$subtitle = get_post_meta( $portfolio_section_id, '_sgescort_portfolio_section_subtitle', true );
-							$title = get_post_meta( $portfolio_section_id, '_sgescort_portfolio_section_title', true );
+							$subtitle = get_post_meta( $portfolio_section_id, '_sgescort_portfolio_subtitle', true );
+							$title = get_post_meta( $portfolio_section_id, '_sgescort_portfolio_title', true );
 							?>
 							<span class="top-head"><?php echo esc_html( $subtitle ?: 'Gallery' ); ?></span>
 							<h3><?php echo esc_html( $title ?: 'SG SCORT HUB PORTFOLIO' ); ?></h3>
@@ -482,7 +482,7 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 					<?php
 					$banner_query = new WP_Query(
 						array(
-							'post_type'      => 'sgescort_banner_section',
+							'post_type'      => 'sgescort_banner',
 							'posts_per_page' => 1,
 							'orderby'        => 'menu_order',
 							'order'          => 'ASC',
@@ -541,7 +541,7 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 					<?php
 					$team_section_query = new WP_Query(
 						array(
-							'post_type'      => 'sgescort_team_section',
+							'post_type'      => 'sgescort_team',
 							'posts_per_page' => 1,
 							'orderby'        => 'menu_order',
 							'order'          => 'ASC',
@@ -552,8 +552,8 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 						while ( $team_section_query->have_posts() ) :
 							$team_section_query->the_post();
 							$team_section_id = get_the_ID();
-							$subtitle = get_post_meta( $team_section_id, '_sgescort_team_section_subtitle', true );
-							$title = get_post_meta( $team_section_id, '_sgescort_team_section_title', true );
+							$subtitle = get_post_meta( $team_section_id, '_sgescort_team_subtitle', true );
+							$title = get_post_meta( $team_section_id, '_sgescort_team_title', true );
 							?>
 							<span class="top-head"><?php echo esc_html( $subtitle ?: 'TOP Models' ); ?></span>
 							<h3><?php echo esc_html( $title ?: 'Meet Our Models' ); ?></h3>
@@ -745,7 +745,7 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 					<?php
 					$testimonials_query = new WP_Query(
 						array(
-							'post_type'      => 'sgescort_testimonials_section',
+							'post_type'      => 'sgescort_testimonials',
 							'posts_per_page' => 1,
 							'orderby'        => 'menu_order',
 							'order'          => 'ASC',
@@ -833,7 +833,7 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 					<?php
 					$faq_section_query = new WP_Query(
 						array(
-							'post_type'      => 'sgescort_faq_section',
+							'post_type'      => 'sgescort_faq',
 							'posts_per_page' => 1,
 							'orderby'        => 'menu_order',
 							'order'          => 'ASC',
@@ -843,8 +843,8 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 					if ( $faq_section_query->have_posts() ) :
 						while ( $faq_section_query->the_post() ) :
 							$faq_section_id = get_the_ID();
-							$subtitle = get_post_meta( $faq_section_id, '_sgescort_faq_section_subtitle', true );
-							$title = get_post_meta( $faq_section_id, '_sgescort_faq_section_title', true );
+							$subtitle = get_post_meta( $faq_section_id, '_sgescort_faq_subtitle', true );
+							$title = get_post_meta( $faq_section_id, '_sgescort_faq_title', true );
 							?>
 							<span class="top-head"><?php echo esc_html( $subtitle ?: 'FAQ' ); ?></span>
 							<h3><?php echo esc_html( $title ?: 'Frequently Asked Questions' ); ?></h3>
@@ -1040,7 +1040,7 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 					<?php
 					$news_section_query = new WP_Query(
 						array(
-							'post_type'      => 'sgescort_news_section',
+							'post_type'      => 'sgescort_news',
 							'posts_per_page' => 1,
 							'orderby'        => 'menu_order',
 							'order'          => 'ASC',
