@@ -690,6 +690,7 @@ function sgescort_basic_about_meta_box_html( $post ) {
 	$button1_url = get_post_meta( $post->ID, '_sgescort_about_button1_url', true );
 	$button2_text = get_post_meta( $post->ID, '_sgescort_about_button2_text', true );
 	$button2_url = get_post_meta( $post->ID, '_sgescort_about_button2_url', true );
+	$image = get_post_meta( $post->ID, '_sgescort_about_image', true );
 	?>
 	<p>
 		<label for="sgescort_about_subtitle"><?php esc_html_e( 'About Subtitle', 'sgescort-basic' ); ?></label><br>
@@ -714,6 +715,10 @@ function sgescort_basic_about_meta_box_html( $post ) {
 	<p>
 		<label for="sgescort_about_button2_url"><?php esc_html_e( 'Button 2 URL', 'sgescort-basic' ); ?></label><br>
 		<input type="url" id="sgescort_about_button2_url" name="sgescort_about_button2_url" class="widefat" value="<?php echo esc_attr( $button2_url ); ?>" placeholder="https://t.me/+qQYECOoAHgZhNzU1">
+	</p>
+	<p>
+		<label for="sgescort_about_image"><?php esc_html_e( 'About Image URL', 'sgescort-basic' ); ?></label><br>
+		<input type="url" id="sgescort_about_image" name="sgescort_about_image" class="widefat" value="<?php echo esc_attr( $image ); ?>" placeholder="https://example.com/image.jpg">
 	</p>
 	<?php
 }
@@ -1067,6 +1072,7 @@ function sgescort_basic_save_about_meta( $post_id ) {
 		'sgescort_about_button1_url',
 		'sgescort_about_button2_text',
 		'sgescort_about_button2_url',
+		'sgescort_about_image',
 	);
 
 	foreach ( $fields as $field ) {
@@ -1989,4 +1995,173 @@ function sgescort_basic_section_manager_page() {
 		</style>
 	</div>
 	<?php
+}
+
+function sgescort_basic_hero_section() {
+    ?>
+    <!-- Hero Section -->
+    <section id="home" class="slide-area">
+    	<div class="container">
+    		<div class="row">
+    			<div class="col-12">
+    				<div class="slide-content">
+    					<?php
+    					$hero_query = new WP_Query(
+    						array(
+    							'post_type'      => 'sgescort_hero',
+    							'posts_per_page' => 1,
+    							'orderby'        => 'menu_order',
+    							'order'          => 'ASC',
+    						)
+    					);
+    					if ( $hero_query->have_posts() ) :
+    						while ( $hero_query->have_posts() ) :
+    							$hero_query->the_post();
+    							$hero_id = get_the_ID();
+    							$title1 = get_post_meta( $hero_id, '_sgescort_hero_title1', true );
+    							$title2 = get_post_meta( $hero_id, '_sgescort_hero_title2', true );
+    							$button1_text = get_post_meta( $hero_id, '_sgescort_hero_button1_text', true );
+    							$button1_url = get_post_meta( $hero_id, '_sgescort_hero_button1_url', true );
+    							$button2_text = get_post_meta( $hero_id, '_sgescort_hero_button2_text', true );
+    							$button2_url = get_post_meta( $hero_id, '_sgescort_hero_button2_url', true );
+    							?>
+    							<span class="title1"><?php echo esc_html( $title1 ?: '#1 Best Directory Singapore (SG)' ); ?></span>
+    							<h1 class="title2">
+    								<?php echo esc_html( $title2 ?: get_bloginfo( 'name' ) ); ?>
+    							</h1>
+    							<div class="slider-button">
+    								<?php if ( $button1_text && $button1_url ) : ?>
+    									<a class="slide-btn" href="<?php echo esc_url( $button1_url ); ?>"><?php echo esc_html( $button1_text ); ?></a>
+    								<?php else : ?>
+    									<a class="slide-btn" href="https://sgescorthub.com/">Visit SGESCORTHUB.COM</a>
+    								<?php endif; ?>
+    								<?php if ( $button2_text && $button2_url ) : ?>
+    									<a class="slide-btn" href="<?php echo esc_url( $button2_url ); ?>"><?php echo esc_html( $button2_text ); ?></a>
+    								<?php else : ?>
+    									<a class="slide-btn" href="https://t.me/+qQYECOoAHgZhNzU1" rel="nofollow">Visit Telegram</a>
+    								<?php endif; ?>
+    							</div>
+    							<?php
+    						endwhile;
+    						wp_reset_postdata();
+    					else :
+    						?>
+    						<span class="title1">#1 Best Directory Singapore (SG)</span>
+    						<h1 class="title2">
+    							<?php bloginfo( 'name' ); ?>
+    						</h1>
+    						<div class="slider-button">
+    							<a class="slide-btn" href="https://sgescorthub.com/">Visit SGESCORTHUB.COM</a>
+    							<a class="slide-btn" href="https://t.me/+qQYECOoAHgZhNzU1" rel="nofollow">Visit Telegram</a>
+    						</div>
+    						<?php
+    					endif;
+    					?>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </section>
+    <?php
+}
+
+function sgescort_basic_about_section() {
+    ?>
+    <!-- About Section -->
+    <section id="about" class="about-area bg-color area-padding">
+    	<div class="container">
+    		<div class="row align-items-center">
+    			<div class="col-md-6">
+    				<div class="about-images position-relative">
+    					<?php
+    					$about_query = new WP_Query(
+    						array(
+    							'post_type'      => 'sgescort_about',
+    							'posts_per_page' => 1,
+    							'orderby'        => 'menu_order',
+    							'order'          => 'ASC',
+    						)
+    					);
+    					$image_url = '';
+    					if ( $about_query->have_posts() ) :
+    						while ( $about_query->have_posts() ) :
+    							$about_query->the_post();
+    							$about_id = get_the_ID();
+    							$image_url = get_post_meta( $about_id, '_sgescort_about_image', true );
+    						endwhile;
+    						wp_reset_postdata();
+    					endif;
+    					?>
+    					<img class="ab-image" src="<?php echo esc_url( $image_url ?: home_url( '/html/images/s1.jpg' ) ); ?>" alt="Singapore Escort Hub Team">
+    					<div class="video-content">
+    						<a href="#" class="video-play-icon">
+    							<i class="fa fa-play"></i>
+    						</a>
+    					</div>
+    				</div>
+    			</div>
+    			<div class="col-md-6">
+    				<div class="about-content">
+    					<div class="about-headline">
+    						<?php
+    					if ( $about_query->have_posts() ) :
+    						$about_query->rewind_posts();
+    						while ( $about_query->have_posts() ) :
+    							$about_query->the_post();
+    							$about_id = get_the_ID();
+    							$subtitle = get_post_meta( $about_id, '_sgescort_about_subtitle', true );
+    							$title = get_post_meta( $about_id, '_sgescort_about_title', true );
+    							$button1_text = get_post_meta( $about_id, '_sgescort_about_button1_text', true );
+    							$button1_url = get_post_meta( $about_id, '_sgescort_about_button1_url', true );
+    							$button2_text = get_post_meta( $about_id, '_sgescort_about_button2_text', true );
+    							$button2_url = get_post_meta( $about_id, '_sgescort_about_button2_url', true );
+    							?>
+    							<span class="top-head"><?php echo esc_html( $subtitle ?: 'About Us' ); ?></span>
+    							<h3><?php echo esc_html( $title ?: 'About Singapore Escort Hub' ); ?></h3>
+    							<?php
+    						endwhile;
+    						wp_reset_postdata();
+    					else :
+    						?>
+    						<span class="top-head">About Us</span>
+    						<h3>About Singapore Escort Hub</h3>
+    						<?php
+    					endif;
+    						?>
+    					</div>
+    					<?php if ( get_the_content() ) : ?>
+    						<div class="entry-content">
+    							<?php the_content(); ?>
+    						</div>
+    					<?php else : ?>
+    						<p>
+    							An Singapore Escort Agency / Escort Girls SG is a professional service provider that offers
+    							companionship and social support for clients in various settings. These services may include
+    							attending social events, business meetings, private gatherings, or accompanying clients on
+    							travel arrangements.
+    						</p>
+    						<p>
+    							The nature of escort services provided by escort agencies can vary depending on regional laws
+    							and cultural norms. Clients are encouraged to verify the agency's credentials and the scope of
+    							its offerings to ensure a legitimate and satisfactory experience.
+    						</p>
+    					<?php endif; ?>
+    					<div class="slider-button">
+    						<?php if ( $button1_text && $button1_url ) : ?>
+    							<a class="slide-btn" href="<?php echo esc_url( $button1_url ); ?>"><?php echo esc_html( $button1_text ); ?></a>
+    						<?php else : ?>
+    							<a class="slide-btn" href="https://sgescorthub.com/">Visit</a>
+    						<?php endif; ?>
+    						<?php if ( $button2_text && $button2_url ) : ?>
+    							<a class="slide-btn" href="<?php echo esc_url( $button2_url ); ?>"><?php echo esc_html( $button2_text ); ?></a>
+    						<?php else : ?>
+    							<a class="slide-btn" href="https://t.me/+qQYECOoAHgZhNzU1" rel="nofollow">Join Telegram</a>
+    						<?php endif; ?>
+    					</div>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </section>
+    <?php
 }
