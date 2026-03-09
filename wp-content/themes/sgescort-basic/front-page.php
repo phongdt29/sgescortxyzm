@@ -396,7 +396,7 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 				<div class="section-headline white-headline text-center">
 					
 					<?php
-					// Initialize so images are available outside the loop.
+					// Keep CMS images available outside the loop.
 					$portfolio_cms_images = array();
 
 					$portfolio_section_query = new WP_Query(
@@ -413,7 +413,14 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 							$portfolio_section_id = get_the_ID();
 							$subtitle             = get_post_meta( $portfolio_section_id, '_sge_portfolio_subtitle', true );
 							$title                = get_post_meta( $portfolio_section_id, '_sge_portfolio_title', true );
-							$portfolio_cms_images = get_post_meta( $portfolio_section_id, '_sge_portfolio_images', true );
+							$_pf_raw = get_post_meta( $portfolio_section_id, '_sge_portfolio_images', true );
+							if ( is_array( $_pf_raw ) ) {
+								$portfolio_cms_images = $_pf_raw;
+							} elseif ( is_string( $_pf_raw ) && '' !== $_pf_raw ) {
+								$portfolio_cms_images = json_decode( $_pf_raw, true );
+							} else {
+								$portfolio_cms_images = array();
+							}
 							$portfolio_cms_images = is_array( $portfolio_cms_images ) ? $portfolio_cms_images : array();
 							?>
 							<span class="top-head"><?php echo esc_html( $subtitle ?: 'Gallery' ); ?></span>
@@ -436,7 +443,6 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 			<div class="portfolio-slider" id="portfolioSlider">
 				<?php
 				if ( ! empty( $portfolio_cms_images ) ) :
-					// Load images uploaded via CMS.
 					foreach ( $portfolio_cms_images as $index => $img_url ) :
 						?>
 						<div class="portfolio-slide">
@@ -448,20 +454,19 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 						</div>
 					<?php endforeach;
 				else :
-					// Fallback to default static images.
 					$portfolio_fallback = array(
 						'a1.jpg','a2.jpg','a3.jpg','a4.jpg','a5.jpg','a6.jpg','a7.jpg',
 						'a8.jpg','a9.jpg','a10.jpg','a11.jpg','a12.jpg','a13.jpg','a14.jpg',
 					);
 					foreach ( $portfolio_fallback as $index => $file ) :
 						?>
-						<div class="portfolio-slide">
+						<!-- <div class="portfolio-slide">
 							<div class="single-awesome-project">
 								<div class="awesome-img">
 									<img src="<?php echo esc_url( home_url( '/html/images/' . $file ) ); ?>" alt="<?php echo esc_attr( 'Gallery Image ' . ( $index + 1 ) ); ?>">
 								</div>
 							</div>
-						</div>
+						</div> -->
 					<?php endforeach;
 				endif; ?>
 			</div>

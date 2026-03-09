@@ -521,6 +521,18 @@ function sgescort_basic_portfolio_section_meta_boxes() {
 add_action( 'add_meta_boxes', 'sgescort_basic_portfolio_section_meta_boxes' );
 
 /**
+ * Enqueue WP media uploader on sge_portfolio edit screens.
+ */
+function sgescort_basic_portfolio_enqueue_media( $hook ) {
+	global $post;
+	if ( in_array( $hook, array( 'post.php', 'post-new.php' ), true ) &&
+		isset( $post->post_type ) && 'sge_portfolio' === $post->post_type ) {
+		wp_enqueue_media();
+	}
+}
+add_action( 'admin_enqueue_scripts', 'sgescort_basic_portfolio_enqueue_media' );
+
+/**
  * Remove post format metabox from all sgescort section CPTs to prevent
  * "Định dạng bài viết không hợp lệ" error in wp-admin.
  */
@@ -777,8 +789,15 @@ function sgescort_basic_portfolio_section_meta_box_html( $post ) {
 
 	$subtitle = get_post_meta( $post->ID, '_sge_portfolio_subtitle', true );
 	$title    = get_post_meta( $post->ID, '_sge_portfolio_title', true );
-	$images   = get_post_meta( $post->ID, '_sge_portfolio_images', true );
-	$images   = is_array( $images ) ? $images : array();
+	$_img_raw = get_post_meta( $post->ID, '_sge_portfolio_images', true );
+	if ( is_array( $_img_raw ) ) {
+		$images = $_img_raw; // legacy serialized array
+	} elseif ( is_string( $_img_raw ) && '' !== $_img_raw ) {
+		$images = json_decode( $_img_raw, true ); // new JSON string
+	} else {
+		$images = array();
+	}
+	$images = is_array( $images ) ? $images : array();
 	?>
 	<p>
 		<label for="sge_portfolio_subtitle"><?php esc_html_e( 'Portfolio Subtitle', 'sgescort-basic' ); ?></label><br>
@@ -788,49 +807,47 @@ function sgescort_basic_portfolio_section_meta_box_html( $post ) {
 		<label for="sge_portfolio_title"><?php esc_html_e( 'Portfolio Title', 'sgescort-basic' ); ?></label><br>
 		<input type="text" id="sge_portfolio_title" name="sge_portfolio_title" class="widefat" value="<?php echo esc_attr( $title ); ?>" placeholder="SG SCORT HUB PORTFOLIO">
 	</p>
-	<p>
-		<strong><?php esc_html_e( 'Portfolio Images', 'sgescort-basic' ); ?></strong><br>
-		<small><?php esc_html_e( 'Add images to display in the gallery slider. If empty, fallback images will be used.', 'sgescort-basic' ); ?></small>
-	</p>
+	<hr>
+	<p><strong><?php esc_html_e( 'Portfolio Images', 'sgescort-basic' ); ?></strong><br>
+	<small><?php esc_html_e( 'Upload images to display in the gallery slider. Leave empty to use default images.', 'sgescort-basic' ); ?></small></p>
 	<div id="sge-portfolio-images-wrap" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
-		<?php foreach ( $images as $i => $url ) : ?>
+		<?php foreach ( $images as $url ) : ?>
 			<div class="sge-portfolio-image-item" style="position:relative;width:80px;height:80px;">
 				<img src="<?php echo esc_url( $url ); ?>" style="width:80px;height:80px;object-fit:cover;border:1px solid #ddd;">
 				<input type="hidden" name="sge_portfolio_images[]" value="<?php echo esc_attr( $url ); ?>">
-				<button type="button" class="sge-remove-image" style="position:absolute;top:0;right:0;background:red;color:#fff;border:none;cursor:pointer;width:20px;height:20px;font-size:12px;line-height:1;padding:0;">&times;</button>
+				<button type="button" class="sge-remove-image" style="position:absolute;top:0;right:0;background:#cc0000;color:#fff;border:none;cursor:pointer;width:20px;height:20px;font-size:14px;line-height:1;padding:0;">&times;</button>
 			</div>
 		<?php endforeach; ?>
 	</div>
-	<button type="button" id="sge-add-portfolio-images" class="button"><?php esc_html_e( 'Add Images', 'sgescort-basic' ); ?></button>
+	<button type="button" id="sge-add-portfolio-images" class="button button-primary"><?php esc_html_e( 'Add Images', 'sgescort-basic' ); ?></button>
 	<script>
-	jQuery(function($){
-		// Remove image
-		$('#sge-portfolio-images-wrap').on('click', '.sge-remove-image', function(){
-			$(this).closest('.sge-portfolio-image-item').remove();
-		});
-
-		// Add images via WP media uploader
-		$('#sge-add-portfolio-images').on('click', function(e){
-			e.preventDefault();
-			var frame = wp.media({
-				title: '<?php echo esc_js( __( 'Select Portfolio Images', 'sgescort-basic' ) ); ?>',
-				button: { text: '<?php echo esc_js( __( 'Add to Gallery', 'sgescort-basic' ) ); ?>' },
-				multiple: true
+	if ( typeof jQuery !== 'undefined' ) {
+		jQuery(function($){
+			$('#sge-portfolio-images-wrap').on('click', '.sge-remove-image', function(){
+				$(this).closest('.sge-portfolio-image-item').remove();
 			});
-			frame.on('select', function(){
-				var attachments = frame.state().get('selection').toJSON();
-				attachments.forEach(function(att){
-					var url = att.sizes && att.sizes.medium ? att.sizes.medium.url : att.url;
-					var item = $('<div class="sge-portfolio-image-item" style="position:relative;width:80px;height:80px;"></div>');
-					item.append('<img src="'+url+'" style="width:80px;height:80px;object-fit:cover;border:1px solid #ddd;">');
-					item.append('<input type="hidden" name="sge_portfolio_images[]" value="'+url+'">');
-					item.append('<button type="button" class="sge-remove-image" style="position:absolute;top:0;right:0;background:red;color:#fff;border:none;cursor:pointer;width:20px;height:20px;font-size:12px;line-height:1;padding:0;">&times;</button>');
-					$('#sge-portfolio-images-wrap').append(item);
+			$('#sge-add-portfolio-images').on('click', function(e){
+				e.preventDefault();
+				var frame = wp.media({
+					title: '<?php echo esc_js( __( 'Select Portfolio Images', 'sgescort-basic' ) ); ?>',
+					button: { text: '<?php echo esc_js( __( 'Add to Gallery', 'sgescort-basic' ) ); ?>' },
+					multiple: true
 				});
+				frame.on('select', function(){
+					var attachments = frame.state().get('selection').toJSON();
+					attachments.forEach(function(att){
+						var url = ( att.sizes && att.sizes.large ) ? att.sizes.large.url : att.url;
+						var item = $('<div class="sge-portfolio-image-item" style="position:relative;width:80px;height:80px;"></div>');
+						item.append('<img src="'+url+'" style="width:80px;height:80px;object-fit:cover;border:1px solid #ddd;">');
+						item.append('<input type="hidden" name="sge_portfolio_images[]" value="'+url+'">');
+						item.append('<button type="button" class="sge-remove-image" style="position:absolute;top:0;right:0;background:#cc0000;color:#fff;border:none;cursor:pointer;width:20px;height:20px;font-size:14px;line-height:1;padding:0;">&times;</button>');
+						$('#sge-portfolio-images-wrap').append(item);
+					});
+				});
+				frame.open();
 			});
-			frame.open();
 		});
-	});
+	}
 	</script>
 	<?php
 }
@@ -1235,7 +1252,7 @@ function sgescort_basic_save_portfolio_section_meta( $post_id ) {
 		}
 	}
 
-	// Save portfolio images array.
+	// Save portfolio images as JSON string (avoids PHP serialization issues).
 	$images = array();
 	if ( ! empty( $_POST['sge_portfolio_images'] ) && is_array( $_POST['sge_portfolio_images'] ) ) {
 		foreach ( $_POST['sge_portfolio_images'] as $url ) {
@@ -1245,7 +1262,8 @@ function sgescort_basic_save_portfolio_section_meta( $post_id ) {
 			}
 		}
 	}
-	update_post_meta( $post_id, '_sge_portfolio_images', $images );
+	delete_post_meta( $post_id, '_sge_portfolio_images' );
+	update_post_meta( $post_id, '_sge_portfolio_images', wp_json_encode( $images ) );
 }
 add_action( 'save_post_sge_portfolio', 'sgescort_basic_save_portfolio_section_meta' );
 
