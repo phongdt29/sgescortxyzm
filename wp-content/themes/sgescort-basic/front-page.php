@@ -394,10 +394,14 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 		<div class="row">
 			<div class="col-12">
 				<div class="section-headline white-headline text-center">
+					
 					<?php
+					// Initialize so images are available outside the loop.
+					$portfolio_cms_images = array();
+
 					$portfolio_section_query = new WP_Query(
 						array(
-							'post_type'      => 'sgescort_portfolio',
+							'post_type'      => 'sge_portfolio',
 							'posts_per_page' => 1,
 							'orderby'        => 'menu_order',
 							'order'          => 'ASC',
@@ -407,8 +411,10 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 					if ( $portfolio_section_query->have_posts() ) :
 						while ( $portfolio_section_query->the_post() ) :
 							$portfolio_section_id = get_the_ID();
-							$subtitle = get_post_meta( $portfolio_section_id, '_sgescort_portfolio_subtitle', true );
-							$title = get_post_meta( $portfolio_section_id, '_sgescort_portfolio_title', true );
+							$subtitle             = get_post_meta( $portfolio_section_id, '_sge_portfolio_subtitle', true );
+							$title                = get_post_meta( $portfolio_section_id, '_sge_portfolio_title', true );
+							$portfolio_cms_images = get_post_meta( $portfolio_section_id, '_sge_portfolio_images', true );
+							$portfolio_cms_images = is_array( $portfolio_cms_images ) ? $portfolio_cms_images : array();
 							?>
 							<span class="top-head"><?php echo esc_html( $subtitle ?: 'Gallery' ); ?></span>
 							<h3><?php echo esc_html( $title ?: 'SG SCORT HUB PORTFOLIO' ); ?></h3>
@@ -429,32 +435,35 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 		<div class="portfolio-slider-container">
 			<div class="portfolio-slider" id="portfolioSlider">
 				<?php
-				$portfolio_images = array(
-					'a1.jpg',
-					'a2.jpg',
-					'a3.jpg',
-					'a4.jpg',
-					'a5.jpg',
-					'a6.jpg',
-					'a7.jpg',
-					'a8.jpg',
-					'a9.jpg',
-					'a10.jpg',
-					'a11.jpg',
-					'a12.jpg',
-					'a13.jpg',
-					'a14.jpg',
-				);
-				foreach ( $portfolio_images as $index => $file ) :
-					?>
-					<div class="portfolio-slide">
-						<div class="single-awesome-project">
-							<div class="awesome-img">
-								<img src="<?php echo esc_url( home_url( '/html/images/' . $file ) ); ?>" alt="<?php echo esc_attr( 'Gallery Image ' . ( $index + 1 ) ); ?>">
+				if ( ! empty( $portfolio_cms_images ) ) :
+					// Load images uploaded via CMS.
+					foreach ( $portfolio_cms_images as $index => $img_url ) :
+						?>
+						<div class="portfolio-slide">
+							<div class="single-awesome-project">
+								<div class="awesome-img">
+									<img src="<?php echo esc_url( $img_url ); ?>" alt="<?php echo esc_attr( 'Gallery Image ' . ( $index + 1 ) ); ?>">
+								</div>
 							</div>
 						</div>
-					</div>
-				<?php endforeach; ?>
+					<?php endforeach;
+				else :
+					// Fallback to default static images.
+					$portfolio_fallback = array(
+						'a1.jpg','a2.jpg','a3.jpg','a4.jpg','a5.jpg','a6.jpg','a7.jpg',
+						'a8.jpg','a9.jpg','a10.jpg','a11.jpg','a12.jpg','a13.jpg','a14.jpg',
+					);
+					foreach ( $portfolio_fallback as $index => $file ) :
+						?>
+						<div class="portfolio-slide">
+							<div class="single-awesome-project">
+								<div class="awesome-img">
+									<img src="<?php echo esc_url( home_url( '/html/images/' . $file ) ); ?>" alt="<?php echo esc_attr( 'Gallery Image ' . ( $index + 1 ) ); ?>">
+								</div>
+							</div>
+						</div>
+					<?php endforeach;
+				endif; ?>
 			</div>
 
 			<button class="slider-nav prev" id="prevBtn">
