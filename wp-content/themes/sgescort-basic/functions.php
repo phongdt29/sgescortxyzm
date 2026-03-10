@@ -332,17 +332,38 @@ function sgescort_basic_register_cpts() {
 		)
 	);
 
-	// Portfolio Section.
+	// Portfolio Section (chỉ lưu subtitle/title của section).
 	register_post_type(
 		'sge_portfolio',
 		array(
 			'labels'        => array(
-				'name'          => __( 'Portfolio Sections', 'sgescort-basic' ),
+				'name'          => __( 'Portfolio Section', 'sgescort-basic' ),
 				'singular_name' => __( 'Portfolio Section', 'sgescort-basic' ),
 			),
 			'public'        => true,
 			'show_in_menu'  => true,
-			'supports'      => array( 'title', 'custom-fields', 'page-attributes' ),
+			'supports'      => array( 'title', 'page-attributes' ),
+			'has_archive'   => false,
+			'show_in_rest'  => false,
+		)
+	);
+
+	// Portfolio Images — mỗi ảnh = 1 post, Featured Image = ảnh hiển thị, sắp xếp bằng Order.
+	register_post_type(
+		'sge_portfolio_image',
+		array(
+			'labels'        => array(
+				'name'          => __( 'Portfolio Images', 'sgescort-basic' ),
+				'singular_name' => __( 'Portfolio Image', 'sgescort-basic' ),
+				'add_new'       => __( 'Thêm ảnh', 'sgescort-basic' ),
+				'add_new_item'  => __( 'Thêm ảnh mới', 'sgescort-basic' ),
+				'edit_item'     => __( 'Sửa ảnh', 'sgescort-basic' ),
+				'all_items'     => __( 'Tất cả ảnh', 'sgescort-basic' ),
+			),
+			'public'        => true,
+			'show_in_menu'  => true,
+			'menu_icon'     => 'dashicons-format-image',
+			'supports'      => array( 'title', 'thumbnail', 'page-attributes' ),
 			'has_archive'   => false,
 			'show_in_rest'  => false,
 		)
@@ -506,7 +527,7 @@ function sgescort_basic_team_section_meta_boxes() {
 add_action( 'add_meta_boxes', 'sgescort_basic_team_section_meta_boxes' );
 
 /**
- * Meta box for Portfolio Section.
+ * Meta box for Portfolio Section (chỉ subtitle + title).
  */
 function sgescort_basic_portfolio_section_meta_boxes() {
 	add_meta_box(
@@ -517,20 +538,31 @@ function sgescort_basic_portfolio_section_meta_boxes() {
 		'normal',
 		'default'
 	);
+	// Hướng dẫn cho Portfolio Image CPT.
+	add_meta_box(
+		'sge_portfolio_image_guide',
+		__( 'Hướng dẫn', 'sgescort-basic' ),
+		'sgescort_basic_portfolio_image_guide_html',
+		'sge_portfolio_image',
+		'side',
+		'high'
+	);
 }
 add_action( 'add_meta_boxes', 'sgescort_basic_portfolio_section_meta_boxes' );
 
 /**
- * Enqueue WP media uploader on sge_portfolio edit screens.
+ * Hướng dẫn sử dụng cho sge_portfolio_image.
  */
-function sgescort_basic_portfolio_enqueue_media( $hook ) {
-	global $post;
-	if ( in_array( $hook, array( 'post.php', 'post-new.php' ), true ) &&
-		isset( $post->post_type ) && 'sge_portfolio' === $post->post_type ) {
-		wp_enqueue_media();
-	}
+function sgescort_basic_portfolio_image_guide_html( $post ) {
+	?>
+	<p style="margin:0;font-size:12px;color:#555;">
+		<strong>Cách dùng:</strong><br>
+		1. Đặt tên ảnh vào <em>Title</em> (tuỳ chọn).<br>
+		2. Upload ảnh qua <strong>Featured Image</strong> (bên phải).<br>
+		3. Chỉnh thứ tự hiển thị bằng trường <strong>Order</strong> (số nhỏ hiện trước).
+	</p>
+	<?php
 }
-add_action( 'admin_enqueue_scripts', 'sgescort_basic_portfolio_enqueue_media' );
 
 /**
  * Remove post format metabox from all sgescort section CPTs to prevent
@@ -539,6 +571,7 @@ add_action( 'admin_enqueue_scripts', 'sgescort_basic_portfolio_enqueue_media' );
 function sgescort_basic_remove_format_metaboxes() {
 	$cpts = array(
 		'sge_portfolio',
+		'sge_portfolio_image',
 		'sge_services',
 		'sge_team',
 		'sgescort_faq_section',
@@ -780,7 +813,7 @@ function sgescort_basic_team_section_meta_box_html( $post ) {
 }
 
 /**
- * Meta box HTML for portfolio section CPT.
+ * Meta box HTML for portfolio section CPT — chỉ subtitle + title.
  *
  * @param WP_Post $post Current post.
  */
@@ -789,15 +822,6 @@ function sgescort_basic_portfolio_section_meta_box_html( $post ) {
 
 	$subtitle = get_post_meta( $post->ID, '_sge_portfolio_subtitle', true );
 	$title    = get_post_meta( $post->ID, '_sge_portfolio_title', true );
-	$_img_raw = get_post_meta( $post->ID, '_sge_portfolio_images', true );
-	if ( is_array( $_img_raw ) ) {
-		$images = $_img_raw; // legacy serialized array
-	} elseif ( is_string( $_img_raw ) && '' !== $_img_raw ) {
-		$images = json_decode( $_img_raw, true ); // new JSON string
-	} else {
-		$images = array();
-	}
-	$images = is_array( $images ) ? $images : array();
 	?>
 	<p>
 		<label for="sge_portfolio_subtitle"><?php esc_html_e( 'Portfolio Subtitle', 'sgescort-basic' ); ?></label><br>
@@ -807,51 +831,11 @@ function sgescort_basic_portfolio_section_meta_box_html( $post ) {
 		<label for="sge_portfolio_title"><?php esc_html_e( 'Portfolio Title', 'sgescort-basic' ); ?></label><br>
 		<input type="text" id="sge_portfolio_title" name="sge_portfolio_title" class="widefat" value="<?php echo esc_attr( $title ); ?>" placeholder="SG SCORT HUB PORTFOLIO">
 	</p>
-	<hr>
-	<p><strong><?php esc_html_e( 'Portfolio Images', 'sgescort-basic' ); ?></strong><br>
-	<small><?php esc_html_e( 'Upload images to display in the gallery slider. Leave empty to use default images.', 'sgescort-basic' ); ?></small></p>
-	<div id="sge-portfolio-images-wrap" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
-		<?php foreach ( $images as $url ) : ?>
-			<div class="sge-portfolio-image-item" style="position:relative;width:80px;height:80px;">
-				<img src="<?php echo esc_url( $url ); ?>" style="width:80px;height:80px;object-fit:cover;border:1px solid #ddd;">
-				<input type="hidden" name="sge_portfolio_images[]" value="<?php echo esc_attr( $url ); ?>">
-				<button type="button" class="sge-remove-image" style="position:absolute;top:0;right:0;background:#cc0000;color:#fff;border:none;cursor:pointer;width:20px;height:20px;font-size:14px;line-height:1;padding:0;">&times;</button>
-			</div>
-		<?php endforeach; ?>
-	</div>
-	<button type="button" id="sge-add-portfolio-images" class="button button-primary"><?php esc_html_e( 'Add Images', 'sgescort-basic' ); ?></button>
-	<script>
-	if ( typeof jQuery !== 'undefined' ) {
-		jQuery(function($){
-			$('#sge-portfolio-images-wrap').on('click', '.sge-remove-image', function(){
-				$(this).closest('.sge-portfolio-image-item').remove();
-			});
-			$('#sge-add-portfolio-images').on('click', function(e){
-				e.preventDefault();
-				var frame = wp.media({
-					title: '<?php echo esc_js( __( 'Select Portfolio Images', 'sgescort-basic' ) ); ?>',
-					button: { text: '<?php echo esc_js( __( 'Add to Gallery', 'sgescort-basic' ) ); ?>' },
-					multiple: true
-				});
-				frame.on('select', function(){
-					var attachments = frame.state().get('selection').toJSON();
-					attachments.forEach(function(att){
-						var url = ( att.sizes && att.sizes.large ) ? att.sizes.large.url : att.url;
-						var item = $('<div class="sge-portfolio-image-item" style="position:relative;width:80px;height:80px;"></div>');
-						item.append('<img src="'+url+'" style="width:80px;height:80px;object-fit:cover;border:1px solid #ddd;">');
-						item.append('<input type="hidden" name="sge_portfolio_images[]" value="'+url+'">');
-						item.append('<button type="button" class="sge-remove-image" style="position:absolute;top:0;right:0;background:#cc0000;color:#fff;border:none;cursor:pointer;width:20px;height:20px;font-size:14px;line-height:1;padding:0;">&times;</button>');
-						$('#sge-portfolio-images-wrap').append(item);
-					});
-				});
-				frame.open();
-			});
-		});
-	}
-	</script>
+	<p style="color:#555;font-size:12px;">
+		Để quản lý ảnh gallery, vào <strong>Portfolio Images</strong> trong menu bên trái → Thêm ảnh mới.
+	</p>
 	<?php
 }
-
 /**
  * Meta box HTML for faq section CPT.
  *
@@ -1221,7 +1205,7 @@ function sgescort_basic_save_team_section_meta( $post_id ) {
 add_action( 'save_post_sge_team', 'sgescort_basic_save_team_section_meta' );
 
 /**
- * Save portfolio section meta.
+ * Save portfolio section meta — chỉ subtitle + title.
  *
  * @param int $post_id Post ID.
  */
@@ -1229,41 +1213,17 @@ function sgescort_basic_save_portfolio_section_meta( $post_id ) {
 	if ( ! isset( $_POST['sge_portfolio_meta_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sge_portfolio_meta_nonce'] ) ), 'sge_portfolio_meta_save' ) ) {
 		return;
 	}
-
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 		return;
 	}
-
-	if ( isset( $_POST['post_type'] ) && 'sge_portfolio' === $_POST['post_type'] ) {
-		if ( ! current_user_can( 'edit_post', $post_id ) ) {
-			return;
-		}
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
 	}
-
-	$fields = array(
-		'sge_portfolio_subtitle',
-		'sge_portfolio_title',
-	);
-
-	foreach ( $fields as $field ) {
+	foreach ( array( 'sge_portfolio_subtitle', 'sge_portfolio_title' ) as $field ) {
 		if ( isset( $_POST[ $field ] ) ) {
-			$value = sanitize_text_field( wp_unslash( $_POST[ $field ] ) );
-			update_post_meta( $post_id, '_' . $field, $value );
+			update_post_meta( $post_id, '_' . $field, sanitize_text_field( wp_unslash( $_POST[ $field ] ) ) );
 		}
 	}
-
-	// Save portfolio images as JSON string (avoids PHP serialization issues).
-	$images = array();
-	if ( ! empty( $_POST['sge_portfolio_images'] ) && is_array( $_POST['sge_portfolio_images'] ) ) {
-		foreach ( $_POST['sge_portfolio_images'] as $url ) {
-			$clean = esc_url_raw( wp_unslash( $url ) );
-			if ( $clean ) {
-				$images[] = $clean;
-			}
-		}
-	}
-	delete_post_meta( $post_id, '_sge_portfolio_images' );
-	update_post_meta( $post_id, '_sge_portfolio_images', wp_json_encode( $images ) );
 }
 add_action( 'save_post_sge_portfolio', 'sgescort_basic_save_portfolio_section_meta' );
 
@@ -2240,4 +2200,42 @@ function sgescort_basic_about_section() {
     	</div>
     </section>
     <?php
+}
+
+
+
+/**
+ * Get section header
+ */
+function sgescort_get_section_header($post_type, $subtitle_key, $title_key){
+
+	$query = new WP_Query([
+		'post_type' => $post_type,
+		'posts_per_page' => 1,
+		'orderby' => 'menu_order',
+		'order' => 'ASC',
+		'post_status' => 'publish',
+		'no_found_rows' => true
+	]);
+
+	$data = [
+		'subtitle' => '',
+		'title' => ''
+	];
+
+	if($query->have_posts()){
+
+		$query->the_post();
+
+		$id = get_the_ID();
+
+		$data['subtitle'] = get_post_meta($id,$subtitle_key,true);
+		$data['title'] = get_post_meta($id,$title_key,true);
+
+		wp_reset_postdata();
+
+	}
+
+	return $data;
+
 }

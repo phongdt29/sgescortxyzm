@@ -401,7 +401,7 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 
 					$portfolio_section_query = new WP_Query(
 						array(
-							'post_type'      => 'sge_portfolio',
+							'post_type'      => 'sge_portfolio_section',
 							'posts_per_page' => 1,
 							'orderby'        => 'menu_order',
 							'order'          => 'ASC',
@@ -413,15 +413,7 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 							$portfolio_section_id = get_the_ID();
 							$subtitle             = get_post_meta( $portfolio_section_id, '_sge_portfolio_subtitle', true );
 							$title                = get_post_meta( $portfolio_section_id, '_sge_portfolio_title', true );
-							$_pf_raw = get_post_meta( $portfolio_section_id, '_sge_portfolio_images', true );
-							if ( is_array( $_pf_raw ) ) {
-								$portfolio_cms_images = $_pf_raw;
-							} elseif ( is_string( $_pf_raw ) && '' !== $_pf_raw ) {
-								$portfolio_cms_images = json_decode( $_pf_raw, true );
-							} else {
-								$portfolio_cms_images = array();
-							}
-							$portfolio_cms_images = is_array( $portfolio_cms_images ) ? $portfolio_cms_images : array();
+					
 							?>
 							<span class="top-head"><?php echo esc_html( $subtitle ?: 'Gallery' ); ?></span>
 							<h3><?php echo esc_html( $title ?: 'SG SCORT HUB PORTFOLIO' ); ?></h3>
@@ -442,9 +434,21 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 		<div class="portfolio-slider-container">
 			<div class="portfolio-slider" id="portfolioSlider">
 				<?php
-				if ( ! empty( $portfolio_cms_images ) ) :
-					foreach ( $portfolio_cms_images as $index => $img_url ) :
-						?>
+
+				$portfolio_query = new WP_Query(array(
+					'post_type' => 'sgescort_portfolio',
+					'posts_per_page' => -1,
+					'post_status' => 'publish'
+				));
+
+				if ($portfolio_query->have_posts()) :
+					while ($portfolio_query->have_posts()) : $portfolio_query->the_post();
+
+						$portfolio_id = get_the_ID();
+						$image = get_post_meta($portfolio_id, 'sge_portfolio_image', true);
+				?>
+
+				
 						<div class="portfolio-slide">
 							<div class="single-awesome-project">
 								<div class="awesome-img">
@@ -452,23 +456,13 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 								</div>
 							</div>
 						</div>
-					<?php endforeach;
-				else :
-					$portfolio_fallback = array(
-						'a1.jpg','a2.jpg','a3.jpg','a4.jpg','a5.jpg','a6.jpg','a7.jpg',
-						'a8.jpg','a9.jpg','a10.jpg','a11.jpg','a12.jpg','a13.jpg','a14.jpg',
-					);
-					foreach ( $portfolio_fallback as $index => $file ) :
-						?>
-						<!-- <div class="portfolio-slide">
-							<div class="single-awesome-project">
-								<div class="awesome-img">
-									<img src="<?php echo esc_url( home_url( '/html/images/' . $file ) ); ?>" alt="<?php echo esc_attr( 'Gallery Image ' . ( $index + 1 ) ); ?>">
-								</div>
-							</div>
-						</div> -->
-					<?php endforeach;
-				endif; ?>
+					
+				
+					<?php
+					endwhile;
+					wp_reset_postdata();
+				endif;
+				?>
 			</div>
 
 			<button class="slider-nav prev" id="prevBtn">
@@ -557,7 +551,7 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 					<?php
 					$team_section_query = new WP_Query(
 						array(
-							'post_type'      => 'sgescort_team',
+							'post_type'      => 'sgescort_team_section',
 							'posts_per_page' => 1,
 							'orderby'        => 'menu_order',
 							'order'          => 'ASC',
@@ -568,7 +562,7 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 						while ( $team_section_query->have_posts() ) :
 							$team_section_query->the_post();
 							$team_section_id = get_the_ID();
-							$subtitle = get_post_meta( $team_section_id, '_sgescort_team_subtitle', true );
+							$subtitle = get_post_meta( $team_section_id, '_sgescort_team_section_subtitle', true );
 							$title = get_post_meta( $team_section_id, '_sgescort_team_title', true );
 							?>
 							<span class="top-head"><?php echo esc_html( $subtitle ?: 'TOP Models' ); ?></span>
@@ -849,7 +843,7 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 					<?php
 					$faq_section_query = new WP_Query(
 						array(
-							'post_type'      => 'sgescort_faq',
+							'post_type'      => 'sgescort_faq_section',
 							'posts_per_page' => 1,
 							'orderby'        => 'menu_order',
 							'order'          => 'ASC',
@@ -859,8 +853,8 @@ $enabled_sections = get_option( 'sgescort_basic_sections_enabled', array( 'hero'
 					if ( $faq_section_query->have_posts() ) :
 						while ( $faq_section_query->the_post() ) :
 							$faq_section_id = get_the_ID();
-							$subtitle = get_post_meta( $faq_section_id, '_sgescort_faq_subtitle', true );
-							$title = get_post_meta( $faq_section_id, '_sgescort_faq_title', true );
+							$subtitle = get_post_meta( $faq_section_id, '_sgescort_faq_section_subtitle', true );
+							$title = get_post_meta( $faq_section_id, '_sgescort_faq_section_title', true );
 							?>
 							<span class="top-head"><?php echo esc_html( $subtitle ?: 'FAQ' ); ?></span>
 							<h3><?php echo esc_html( $title ?: 'Frequently Asked Questions' ); ?></h3>
